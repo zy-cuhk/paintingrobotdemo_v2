@@ -1,0 +1,9 @@
+<launch> 
+  <include file="$(find painting_robot_demo)/launch/paintingrobot_rosdriver/jackup_mechanism_rosdriver.launch">
+  </include>
+  <include file="$(find painting_robot_demo)/launch/paintingrobot_rosdriver/plc_rosdriver.launch">
+  </include>
+  <include file="$(find painting_robot_demo)/launch/paintingrobot_rosdriver/aubo_rosdriver.launch">
+  </include>
+
+</launch>

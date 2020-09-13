@@ -1,0 +1,41 @@
+{
+    "configurations": [
+        {
+            "browse": {
+                "databaseFilename": "",
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "/home/zy/catkin_ws/devel/include/**",
+                "/opt/ros/melodic/include/**",
+                "/home/zy/catkin_ws/src/aubo_robot-master/aubo_driver/include/**",
+                "/home/zy/catkin_ws/src/aubo_robot-master/aubo_msgs/include/**",
+                "/home/zy/catkin_ws/src/grid/include/**",
+                "/home/zy/catkin_ws/src/renovproject/mobile_base/mobile_base_controller/include/**",
+                "/home/zy/catkin_ws/src/renovproject/mobile_base/mobile_base_navigation/include/**",
+                "/home/zy/catkin_ws/src/renovproject/mobile_base/mobile_base_teleop/include/**",
+                "/home/zy/catkin_ws/src/renovproject/mobile_base/mobile_base_utility/include/**",
+                "/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_gridbased_planning/include/**",
+                "/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_optimal_coveragepainting/include/**",
+                "/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_workspace_computation/include/**",
+                "/home/zy/catkin_ws/src/polishingrobot_lx/polishingrobot/include/**",
+                "/home/zy/catkin_ws/src/polishingrobot_ylz/polishingrobot_offlineplanner/include/**",
+                "/home/zy/catkin_ws/src/robotiq-kinetic-devel/robotiq_ft_sensor/include/**",
+                "/home/zy/catkin_ws/src/renovproject/mobile_base/sensor_startup/include/**",
+                "/home/zy/catkin_ws/src/ros_tutorials/turtlesim/include/**",
+                "/home/zy/catkin_ws/src/ur5_endoscope_arm/include/**",
+                "/home/zy/catkin_ws/src/universal_robot/ur_kinematics/include/**",
+                "/home/zy/catkin_ws/src/universal_robot/ur_modern_driver/include/**",
+                "/home/zy/catkin_ws/src/using_markers/include/**",
+                "/home/zy/catkin_ws/src/polishingrobot_lx/visionbased_polishing/include/**",
+                "/usr/include/**"
+            ],
+            "name": "ROS",
+            "intelliSenseMode": "gcc-x64",
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14"
+        }
+    ],
+    "version": 4
+}

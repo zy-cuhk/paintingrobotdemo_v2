@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="kinect_camera">
+
+    <xacro:macro name="paintinggun" params="prefix:=paintinggun">
+        <link name="${prefix}_link">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
+                <geometry>
+                    <mesh filename="package://paintingrobot_workspace_computation/stl_document/paintinggun_02.STL" />
+                </geometry>
+            </visual>
+            <collision>
+                <geometry>
+                    <box size="0.07 0.3 0.09"/>
+                </geometry>
+            </collision>
+        </link>
+
+        <joint name="${prefix}_transfromation_joint" type="fixed">
+            <origin xyz="-0.575 0.04 0.25" rpy="0 0 0"/>
+            <parent link="${prefix}_link"/>
+            <child link="painting_endeffector"/>
+        </joint>
+        <link name="painting_endeffector"/>
+
+    </xacro:macro>
+</robot>

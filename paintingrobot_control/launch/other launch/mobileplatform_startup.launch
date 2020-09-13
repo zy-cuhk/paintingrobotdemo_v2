@@ -1,0 +1,18 @@
+<launch>
+
+  <!-- set /global_example parameter -->  
+  <!-- <group ns="aubo_startup_ns"> -->
+  <group ns="renov_up_level">
+    <param name="mobile_platform_tracking_over_flag" value="0"/>
+    <param name="rodmechanism_holding_over_flag" value="0"/>
+    <param name="climbingmechanism_climbing_over_flag" value="0"/>
+    <param name="manipulator_renovation_over_flag" value="0" />
+    <param name="one_mobilebase_operation_over_flag" value="0" />
+    <param name="jackup_mechanism_homing_over_flag" value="0" />
+    <param name="mobileplatform_tracking_error" value="0.1" />
+
+    <node pkg="painting_robot_demo" type="mobileplatform_motion_zy.py" name="mobile_platform_motion" output="screen" >
+    </node>
+    </group>
+</launch>
+

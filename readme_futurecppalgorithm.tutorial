@@ -1,0 +1,79 @@
+## ----------------------------------------------------------------------------------------------------------------
+# for the future CPP algorithm for interior renovation robot
+# the novel algorithm is shown as follows:
+1. offline indoor painting path planning
+2. online coverage motion planning for interior painting robot
+
+# the details of online coverage motion planning of interior painting robot is shown as follows:
+while(1)
+    1. sample mobile platform positions
+    2. for each candidate mobile platform position:
+            sample the climbing mechanism joints 
+
+# the proposed algorithm is shown as follows:
+
+# while(exist 2d boundary)
+#   1.sample mobile platform positions
+#   2. obtain the correponding 3d painting paths inside its workspace 
+#   3. select 3d painting paths which are mapping with 2d boundary covered by it
+#       4. while(exist 3d painting paths)
+#             implement rtsp solver to compute climbing joints value and correponding manipulator painting paths 
+#          exit condition: 3d painting paths are all covered
+#   5. implement information gain metric to select the configuration-space list, i.e. minimum motion cost to obtain maximum painting boundaries 
+# exit condition: 2d boundary are all covered.
+
+
+# the above proposed algorithm is an online algorithm which always select the next best configuration-space multiple joints list to paint maximum target painting area based on our proposed metric, and the biggest challenge is to build up the coverage concept of 2d octomap and 3d octomap 
+# the 3d voxel can be divided into three types, including free voxel, occupied voxel which has not been painted, occupied voxel which has been painting 
+# the 2d grid can be divided into three types, including free grid, occupied voxel which has not been painted, occupied voxel which has been painting 
+# the relationship betwen 2d grid and 3d voxel can be shown as:
+# 1. if all 3d voxels above the 2d grid are painted, the 2d grid should be set as occupied grid which has been painted
+# 2. if one more voxels above the 2d grid are not painted, the 2d grid should be set as occupied grid which has not been painted
+
+
+# the above algorithm is for wall painting problem, reason: 1. the proposed platform is suitable for painting wall surfaces 2. other surface painting algorithm is too hard to complete.
+# the above algorithm should explain the 2d grid and 3d voxel well, otherwise it could be regarded as a coding trick instead of a theoretical novelty.
+# 3d volume painting coverage problem can be regard as 2d boundary coverage planning, which means that 3d volume above 2d boundary should be covered, if one more 3d volume above 2d boundary is not covered, then 2d boundary is not set as coverage state and new mobile platform position should be generated to cover the 3d volume.
+
+
+# the kdtree is not suitable for our problem, therefore such method is eliminated from our problem.
+
+# the greedy algorithm is shown as follows:
+# 1. the greedy strategy of mobile platform coverage motion planning is that: cover longest 2d boundary with minimum motion cost
+# 2. the greedy strategy of climbing mechanism is that: cover larget area with minimum motion cost
+# 3. the greedy strategy of manipulator is that: paint the target area with minimum motion cost
+
+# the algorithm is only suitable for wall painting and the algorithm framework is shown as follows:
+# while(exist 2d boundaries)
+# 1. sample candidate mobile platform positions 
+# 2. select the best mobile platform positions based on the above greedy strategy and obtain its covered 3d painting paths 
+# 3. while(exist target 3d painting paths) 
+# 4.    sample candidate climbing mechanism positions
+# 5.    select the best climbing mechanism positions  based on the greedy strategy and obtain its covered 3d painting strokes
+# 6.         obtain manipulator painting joints based on the greedy strategy 
+# 7. exit condition:no 3d painting paths
+# exit condition: no 2d boundaries
+
+# the most important element for algorithm programming is efficiency
+
+## the algorithm frameworks of indoor coverage painting planning is shown as follows:
+# offline painting path planning, which guarantees painting uniformness with optimal painting paths
+# online mobile platform planning, which obtains 2d coverage terrain with minimum cost
+# online climbing mechanism plannig, which obtains 3d painting area with minimum cost
+# online manipulator coverage trajectory planning to paint target areas
+
+# the contributions are summarized as follows:
+a coverage planner is proposed for indoor painting problem, which has three contributions as follows:
+1. a novel offline coverage painting path planner is proposed for indoor environment which considers both paths length and painting qulity consistence;
+2. a novel online motion planner is proposed to determine optimal placement positions of mobile platform and related motion trajectories which is able to obtain maximum coverage area with minimum motion cost.
+3. a novel online motion planner is proposed to generate optimal manipulator trajectries for the redudant 7-dof industrial manipulator which consider both the motion cost and painting quality consistence.
+
+
+
+
+
+
+
+
+
+
