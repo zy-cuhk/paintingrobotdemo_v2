@@ -16,9 +16,9 @@
     <param name="current_motion_phase_start_flag" value="0" />
     <param name="current_motion_phase_over_flag" value="0" />
 
-    <node pkg="painting_robot_demo" type="aubo_control_rosdriver1.py" name="aubo_control_rosdriver1" output="screen" >
+    <node pkg="paintingrobot_control" type="aubo_control_rosdriver1.py" name="aubo_control_rosdriver1" output="screen" >
     </node>
-    <node pkg="painting_robot_demo" type="aubo_control_rosdriver2.py" name="aubo_control_rosdriver2" output="screen" >
+    <node pkg="paintingrobot_control" type="aubo_control_rosdriver2.py" name="aubo_control_rosdriver2" output="screen" >
     </node>
     </group>
 </launch>

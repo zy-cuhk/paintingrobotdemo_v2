@@ -7,10 +7,10 @@
 
 	<!-- 设置GUI参数，显示关节控制插件 -->
 	<param name="use_gui" value="True"/>
-  <!-- <node
+  <node
     name="joint_state_publisher"
     pkg="joint_state_publisher"
-    type="joint_state_publisher" /> -->
+    type="joint_state_publisher" />
   <node
     name="robot_state_publisher"
     pkg="robot_state_publisher"

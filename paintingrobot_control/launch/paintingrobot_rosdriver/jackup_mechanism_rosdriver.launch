@@ -73,7 +73,7 @@
     <param name="min_rotation_distance" value="-5.50" />
     <param name="max_rotation_distance" value="2.36" />
 
-    <node pkg="painting_robot_demo" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
+    <node pkg="paintingrobot_control" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
     </node>
     
   </group>

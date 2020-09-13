@@ -56,3 +56,4 @@ self.parameterz=rospy.get_param('mat_parameterz')#0.028625
 <param name="min_rotation_distance" value="-5.50" />
 <param name="max_rotation_distance" value="2.36" />
 
+git clone https://github.com.cnpmjs.org/zy-cuhk/paintingrobotdemo_v2.git

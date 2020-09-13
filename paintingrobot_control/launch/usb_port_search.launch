@@ -29,7 +29,7 @@
     <!-- set all three ports ok flag -->
     <param name="usb_ports_ok_flag" value="0" />
 
-    <node pkg="painting_robot_demo" type="search_usb_port_pub.py" name="search_usb_port_pub" output="screen" >
+    <node pkg="paintingrobot_control" type="search_usb_port_pub.py" name="search_usb_port_pub" output="screen" >
     
     </node>
     
