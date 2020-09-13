@@ -7,7 +7,7 @@
             <visual>
                 <origin xyz="0 0 0" rpy="0 0 ${M_PI/2}"/>
                 <geometry>
-                    <mesh filename="package://paintingrobot_workspace_computation/stl_document/paintinggun_02.STL" />
+                    <mesh filename="package://paintingrobot_description/meshes/paintinggun/paintinggun_02.STL" />
                 </geometry>
             </visual>
             <collision>
