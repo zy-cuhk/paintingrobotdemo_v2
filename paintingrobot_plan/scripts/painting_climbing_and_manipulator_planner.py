@@ -60,7 +60,7 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.28+0.1*i  # the sampled height is 1.2, 1.4 and 1.6
+        candidate_manipulatorbase_position[i][2]=1.2+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z

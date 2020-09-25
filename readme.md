@@ -12,4 +12,6 @@ self.parameterz=rospy.get_param('mat_parameterz')#0.028625
 
 the modification part includes:
 1. z limit should be changed and tested 
-2. planing dict about the manipulator planing part should be 
+2. planing dict about the manipulator planing part should be modified 
+(1) the planning result should be tested 
+(2) the painting gun control part should be added 

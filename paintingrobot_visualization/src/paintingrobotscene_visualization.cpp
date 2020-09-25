@@ -44,7 +44,7 @@ bool loadCloud (const string &filename, PointCloud<PointXYZRGB> &cloud)
         pcl::PointXYZRGB point;
         point.x = float (atof (st[0].c_str ())); 
         point.y = float (atof (st[1].c_str ())); 
-        point.z = float (atof (st[2].c_str ()))-5.80+30.0+2.5;
+        point.z = float (atof (st[2].c_str ()))-5.80+30.0+6.3;
         point.r = uint8_t (atof (st[3].c_str ()));
         point.g = uint8_t (atof (st[4].c_str ()));
         point.b = uint8_t (atof (st[5].c_str ()));

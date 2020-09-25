@@ -41,9 +41,8 @@ class aubo_state():
         self.pub_state_.publish(js)
 
 
-
+"the python file is to visualize the motion of mobile platform and manipulator in simulation environment"
 def main():
-    "the python file is to visualize the motion of mobile platform and manipulator in simulation environment"
     Aub=aubo_state()
     Aub.Init_node()
     ratet=1
