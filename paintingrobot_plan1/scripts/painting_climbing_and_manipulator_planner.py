@@ -266,7 +266,7 @@ if __name__ == "__main__":
                 "step 3: select the best climbing joints value"
                 "candidate_manipulatorbase_position and renovation_waypaths_onecell are new obtained"
                 selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
-
+                
                 "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
                 print("the selected waypath number is :", len(selected_cartersian_waypaths))
                 scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
