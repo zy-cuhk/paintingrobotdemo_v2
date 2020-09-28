@@ -27,12 +27,12 @@
 
     <!-- the paintingrobot demo code -->
     <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/coverageplanningresults_dict.json" />
-    <node pkg="paintingrobot_control" type="coverage_painting_demo_farubim.py" name="coverage_painting_operation" output="screen" >
-    </node>
+    <!-- <node pkg="paintingrobot_control" type="coverage_painting_demo_farubim.py" name="coverage_painting_operation" output="screen" >
+    </node> -->
 
     <!-- the paintingrobot motion test code -->
-    <!-- <node pkg="painting_robot_demo" type="paintingrobot_motion_test.py" name="paintingrobot_test" output="screen" >
-    </node> -->
+    <node pkg="paintingrobot_control" type="paintingrobot_motion_test.py" name="paintingrobot_test" output="screen" >
+    </node>
 
   </group>
 </launch>

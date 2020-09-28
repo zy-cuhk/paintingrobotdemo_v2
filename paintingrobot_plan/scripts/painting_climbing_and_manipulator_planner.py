@@ -243,7 +243,7 @@ if __name__ == "__main__":
     aubo_computation=Aubo_kinematics()
 
     "manipulator base and climbing joint distance relationship is shown as follows:"
-    manipulatorbase_climbingjoint_distance=1.48
+    manipulatorbase_climbingjoint_distance=1.42
 
     "the planning algorithm framework is shown as follows:"
     renovation_manipulatorbase_positions=multidict()
@@ -310,6 +310,7 @@ if __name__ == "__main__":
                 coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_manipulatorbase_num_"+str(j)]["manipulatorbase_num_"+str(k)]=rodclimbing_robot_targetjoints
                 "the manipulator base and climbing joint distance relationship is determined as: 0.6"
                 climbingjoints=[rodclimbing_robot_targetjoints[2]-manipulatorbase_climbingjoint_distance, 0.0]
+                print("climbing joints are:",climbingjoints)
                 coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_climb_num_"+str(j)]["climb_num_"+str(k)]=climbingjoints
 
                 for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
@@ -339,7 +340,7 @@ if __name__ == "__main__":
     #         aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
     #         aubo_p_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
   
-    #         climb_base_count_num+=1
+    #         climb_b)ase_count_num+=1
     #         if climb_base_count_num>=len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
     #             mobile_base_point_count+=1
     #             climb_base_count_num=0

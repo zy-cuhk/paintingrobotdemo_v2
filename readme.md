@@ -64,9 +64,10 @@ roslaunch paintingrobot_visualization paintingrobotmotion_simulation.launch
 
 
 the problems of our proposed algorithm 
-1. mobile base sequence planning 
+1. mobile base sequence planning: adjusting three planes by manpower
 2. rod climbing mechanism problem: the planning result is lower than the minimum position of climbing mechanism
-3. manipulator path plannning problem should be solved firstly.
+3. manipulator path plannning problem should be solved firstly: already finished 
+4. visualizing the online planning result each time 
 
 step 1: after the manipulator path planning problem is solved out, then test the performance of manipulator and climbing mechanism
 

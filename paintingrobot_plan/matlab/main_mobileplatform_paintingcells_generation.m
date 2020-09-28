@@ -252,8 +252,11 @@ for i=1:1:1
 end
        
 
-save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
+%% the sequence of renovation mobile base positions and corresponding sequenced renovation cells waypaths and waypaths orientations are shown as follows:
+%% as only three planes to be painted, the planes sequence is adjusted by manpower
 
+
+save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
 
 renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions, renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
 
