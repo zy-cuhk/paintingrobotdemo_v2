@@ -133,33 +133,35 @@ def schedule_renovationstrokes(renovation_strokes_dict):
 
 def manipulator_catersian_path_tspsolver(unconnected_waypaths):
     renovation_strokes_dict=defaultdict(defaultdict)
+
     strokes_index=0
 
     while(1):
         connected_waypaths, unconnected_waypaths=connect_waypaths(unconnected_waypaths)
-        for i in range(len(connected_waypaths)):
-            renovation_strokes_dict[strokes_index][i]=connected_waypaths[i][0:6]
+        renovation_strokes_dict[strokes_index][0]=[connected_waypaths[0][0],connected_waypaths[0][1],connected_waypaths[0][2],connected_waypaths[len(connected_waypaths)-1][3],connected_waypaths[len(connected_waypaths)-1][4],connected_waypaths[len(connected_waypaths)-1][5]]
+        # for i in range(len(connected_waypaths)):
+        #     renovation_strokes_dict[strokes_index][i]=connected_waypaths[i][0:6]
         strokes_index+=1
         if len(unconnected_waypaths)==0:
             break
     
-    renovation_strokes_dict1=defaultdict(defaultdict)
-    for i in range(len(renovation_strokes_dict)):
-        for j in range(len(renovation_strokes_dict[i])):
-            if i==4:
-                renovation_strokes_dict1[0][j]=renovation_strokes_dict[i][j]
-            if i==5:
-                renovation_strokes_dict1[1][j]=renovation_strokes_dict[i][j]
-            if i==6:
-                renovation_strokes_dict1[2][j]=renovation_strokes_dict[i][j]
     solution, scheduled_strokes_dict=schedule_renovationstrokes(renovation_strokes_dict)
     # print("the solution is: ",solution)
-    return scheduled_strokes_dict
+
+    scheduled_strokes_dict1=defaultdict(defaultdict)
+    if scheduled_strokes_dict[0][0][2]>=scheduled_strokes_dict[len(scheduled_strokes_dict)-1][0][2]:
+        for i in range(len(scheduled_strokes_dict)):
+            scheduled_strokes_dict1[i][0]=scheduled_strokes_dict[i][0]
+    else:
+        for i in range(len(renovation_strokes_dict)):
+            scheduled_strokes_dict1[i][0]=scheduled_strokes_dict[len(scheduled_strokes_dict)-1-i][0]
+
+    return scheduled_strokes_dict1
 
 
 
 if __name__ == "__main__":
-    mat_path="/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_underusing/paintingrobot_planning_tmech/matlab/second_scan_data/second_scan_data3.mat"
+    mat_path="/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/second_scan_data3.mat"
     data = io.loadmat(mat_path)
     renovation_cells_waypaths=data['renovation_cells_waypaths']    
     unconnected_waypaths=renovation_cells_waypaths[0][0][0][0].tolist()
@@ -174,7 +176,7 @@ if __name__ == "__main__":
             selected_waypoints_list.append(scheduled_strokes_dict[i][j][0:3])
             if j==len(scheduled_strokes_dict[i])-1:
                 selected_waypoints_list.append(scheduled_strokes_dict[i][j][3:6])
-    io.savemat('/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_underusing/paintingrobot_planning_tmech/scripts/data1.mat',{'selected_waypoints_list':selected_waypoints_list})  
+    # io.savemat('/home/zy/catkin_ws/src/paintingrobot_related/paintingrobot_underusing/paintingrobot_planning_tmech/scripts/data1.mat',{'selected_waypoints_list':selected_waypoints_list})  
 
 
 

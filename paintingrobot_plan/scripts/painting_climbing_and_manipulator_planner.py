@@ -55,12 +55,12 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     deltay=parameterx*sin(theta_z)+parametery*cos(theta_z)
 
     "sampling manipulator base positions"
-    candidate_manipulatorbase_num=3
+    candidate_manipulatorbase_num=2
     candidate_manipulatorbase_position=np.zeros((candidate_manipulatorbase_num,6))
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.2+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
+        candidate_manipulatorbase_position[i][2]=1.23+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z
@@ -125,6 +125,8 @@ def select_climbingjoints(candidate_manipulatorbase_position,climbingjoints_cove
         if climbingjoints_coverage_number[i]>=max_coverage_paths_number:
             max_coverage_paths_number=climbingjoints_coverage_number[i]
             max_coverage_index=i
+            print("max_coverage_paths_number is:",max_coverage_paths_number)
+            print("max_coverage_index is:",max_coverage_index)
     selected_manipulatorbase_position=candidate_manipulatorbase_position[max_coverage_index]
     selected_cartersian_waypaths=[]
     for i in range(len(cartersianwaypaths_incandidateclimbingjoints[max_coverage_index])):
@@ -241,7 +243,7 @@ if __name__ == "__main__":
     aubo_computation=Aubo_kinematics()
 
     "manipulator base and climbing joint distance relationship is shown as follows:"
-    manipulatorbase_climbingjoint_distance=0.6
+    manipulatorbase_climbingjoint_distance=1.48
 
     "the planning algorithm framework is shown as follows:"
     renovation_manipulatorbase_positions=multidict()
@@ -266,14 +268,14 @@ if __name__ == "__main__":
                 "step 3: select the best climbing joints value"
                 "candidate_manipulatorbase_position and renovation_waypaths_onecell are new obtained"
                 selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
-
+                
                 "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
                 print("the selected waypath number is :", len(selected_cartersian_waypaths))
                 scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
+                print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
                 
                 "step 5: using joint space tsp solver to obtain suitable joints value of scheduled waypaths" 
                 scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
-
                 "step 6: update states for the above variables" 
                 # add the selected manipulator base position and covered painting waypaths into the planning list
                 # print("the selected manipulator base position is:",selected_manipulatorbase_position[0:6])
@@ -284,6 +286,7 @@ if __name__ == "__main__":
                     renovation_manipualtorwaypoint_cartesianlist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selected_waypoints_list[coverage_waypoints_num][0:3]
                 manipulatorbase_num_inonecell+=1
                 
+                print("-------------------------------------------------------------------------------------")
                 "step 7: exit condition: waypaths are all coverage status"
                 # uncovered painting waypaths number is zero
                 if len(renovation_waypaths_onecell)==0:

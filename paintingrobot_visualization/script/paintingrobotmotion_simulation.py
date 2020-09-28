@@ -64,13 +64,13 @@ def main():
 
         while not rospy.is_shutdown():
 
-        # aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
-        # for m in range(len(aubo_q_list)):
-        #     aubo_q=aubo_q_list["aubo_data_num_"+str(m)]
-        #     robot_q=temp1+aubo_q
-        #     Aub.pub_state(robot_q)
-        #     print("robot_q is: ", robot_q)
-        #     rate.sleep()
+            aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
+            for m in range(len(aubo_q_list)):
+                aubo_q=aubo_q_list["aubo_data_num_"+str(m)]
+                robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5],0.1,0.0]+aubo_q
+                Aub.pub_state(robot_q)
+                print("robot_q is: ", robot_q)
+                rate.sleep()
             
             climb_base_count_num+=1
             if climb_base_count_num>=len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
