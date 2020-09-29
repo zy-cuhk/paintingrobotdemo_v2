@@ -94,6 +94,7 @@ class Renovation_operation():
         tuplefloatdata=self.Tuple_string_to_tuple(pubstring)
         start_joints=tuplefloatdata[0:6]
         end_joints=tuplefloatdata[len(tuplefloatdata)-6:len(tuplefloatdata)]
+        manipulator_default_tracking_error= self.manipulator_tracking_error_computation(start_joints)
 
         while not rospy.is_shutdown():
             last_motion_phase_over_flag=rospy.get_param("/renov_up_level/last_motion_phase_over_flag")
@@ -111,13 +112,21 @@ class Renovation_operation():
                 time.sleep(0.5)
                 manipulator_operation_tracking_error= self.manipulator_tracking_error_computation(start_joints)
                 rospy.logerr("manipulator motion phase %s starting error is: %s"%(str(count),str(manipulator_operation_tracking_error))) 
-
-                "manipulator motion triggering condition"
-                if manipulator_operation_tracking_error>=self.tolerance_tracking_error:
-                    os.system("rosparam set /renov_up_level/last_motion_phase_over_flag 0")
-                    os.system("rosparam set /renov_up_level/current_motion_phase_start_flag 1")
+                
+                "manipulator motion triggering exit condition"
+                if abs(abs(manipulator_operation_tracking_error)-abs(manipulator_default_tracking_error))<0.01:
+                    if "movej" in pubstring:
+                        self.aubo_move_joint_pub.publish(pubstring)
+                    elif "movel" in pubstring:
+                        self.aubo_move_line_pub.publish(pubstring)
+                    elif "movet" in pubstring:
+                        self.aubo_move_track_pub.publish(pubstring)
                 else:
-                    pass
+                    if manipulator_operation_tracking_error>=self.tolerance_tracking_error:
+                        os.system("rosparam set /renov_up_level/last_motion_phase_over_flag 0")
+                        os.system("rosparam set /renov_up_level/current_motion_phase_start_flag 1")
+                    else:
+                        pass
             
             current_motion_start_flag=rospy.get_param("/renov_up_level/current_motion_phase_start_flag")
             if current_motion_start_flag==1:

@@ -29,7 +29,8 @@ def rodmechanism_homing(target_standbar_displacement):
 
 def jackup_mechanism_homing(rate):
     motion_state_current2last()
-    target_standbar_displacement=0.00
+    target_standbar_displacement=-0.03
+
     target_rotation_angle=0.00
     target_climb_distance=0.00
     while not rospy.is_shutdown():

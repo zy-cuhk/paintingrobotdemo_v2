@@ -10,7 +10,7 @@ import sys
 from geometry_msgs.msg import PoseStamped,Quaternion
 import tf
 
-
+import json
 from mobileplatform_motion import *
 from jackup_mechanism_homing import *
 from jackup_mechanism_holding import *
@@ -56,8 +56,8 @@ class RenovationRobot():
     
             "executing mobile platform motion"
             time1=time.time()
-            renovation_mobileplatform=mobile_platform()
-            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform=mobile_platform()
+            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
@@ -97,7 +97,8 @@ class RenovationRobot():
                 self.time3_pub.publish(delta_time3)
 
                 "exectuing painting operation of manipulator when climbing operation is over"
-                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
+
+                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                 # for i in range(len(aubo_q_list)):
                 #     list1=aubo_q_list["aubo_data_num_"+str(i)]
                 #     print(list1)
@@ -119,7 +120,7 @@ class RenovationRobot():
                     climb_base_count_num=0
                     os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
                     break
-                # break
+                break
             "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             time1=time.time()
             jackup_mechanism_homing(rate)
@@ -138,7 +139,7 @@ class RenovationRobot():
             if plane_num_count>=len(planning_source_dict):
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            # break
+            break
             rate.sleep()
         print("list is:",list1)
         print("list is:",list2)

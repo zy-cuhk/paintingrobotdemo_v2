@@ -10,7 +10,7 @@ import sys
 from geometry_msgs.msg import PoseStamped,Quaternion
 import tf
 
-
+import json
 from mobileplatform_motion import *
 from jackup_mechanism_homing import *
 from jackup_mechanism_holding import *
@@ -94,7 +94,7 @@ class RenovationRobot():
                 self.time3_pub.publish(delta_time3)
 
                 "exectuing painting operation of manipulator when climbing operation is over"
-                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubo_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
+                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                 # for i in range(len(aubo_q_list)):
                 #     list1=aubo_q_list["aubo_data_num_"+str(i)]
                 #     print(list1)

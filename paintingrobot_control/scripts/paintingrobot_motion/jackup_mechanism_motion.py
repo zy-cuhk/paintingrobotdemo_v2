@@ -92,7 +92,7 @@ def main():
     rate = rospy.Rate(ratet)
 
     target_rotation_angle=-2 # -math.pi/2-0.7
-    target_distance=0.15
+    target_distance=-0.1
     rodclimb_mechanism_motion(target_rotation_angle,target_distance,rate)    
     # rodclimb_mechanism_motion_simulation(target_rotation_angle,target_distance,rate)
 
