@@ -41,7 +41,7 @@ distance_waypoints2wallboundary_direction1;
 distance_waypoints2wallboundary_direction2;
 
 %% visualizing renovation waypoints and waypaths 
-renovation_planes_waypoint_visualization(renovation_effective_waypoints,room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths);
+% renovation_planes_waypoint_visualization(renovation_effective_waypoints,room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths);
 
 %% save matlab data: renovation_effective_waypoints, renovation_effective_waypoints
 save(path4,'renovation_effective_waypoints','renovation_effective_waypaths');

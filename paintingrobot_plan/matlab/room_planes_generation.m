@@ -24,52 +24,56 @@ triangle_norm_vector=room_norm_vector{1};
 triangle_norm_vector_cell{1}(1,1:3)=triangle_norm_vector(1,1:3);
 flag1(1,1)=0;
 
-while(1)
-    triangle_cell_num=size(room_triangle_cell,2);
-    flag2=ones(1,triangle_cell_num);
-    for j=1:1:triangle_cell_num
-        triangle_cell_triangle_num=size(room_triangle_cell{j},1);
-        triangle_cell_triangle_num_before=triangle_cell_triangle_num;
-        for k=1:1:triangle_cell_triangle_num
-            for i=1:1:triangle_num
-                flag3=0;
-                
-                
-                if abs(triangle_norm_vector(i,1)-triangle_norm_vector_cell{j}(k,1))<0.1 || abs(triangle_norm_vector(i,2)-triangle_norm_vector_cell{j}(k,2))<0.1
-                    flag3=1;
-                end
-                for n=1:1:size(room_triangle_cell{j},1)
-                     if all(room_triangle_cell{j}(n,1:18)==room_triangle(i,1:18))
-                         flag3=0;
-                     end
-                end
-                if flag3==1
-                    triangle_cell_triangle_num=triangle_cell_triangle_num+1;
-                    room_triangle_cell{j}(triangle_cell_triangle_num,1:18)=room_triangle(i,1:18);
-                    triangle_norm_vector_cell{j}(triangle_cell_triangle_num,1:3)=triangle_norm_vector(i,1:3);
-                    flag1(1,i)=0;
-                end
-            end
-        end
-        triangle_cell_triangle_num_after=size(room_triangle_cell{j},1);
-        if triangle_cell_triangle_num_before~=triangle_cell_triangle_num_after
-            flag2(1,j)=0;
-        end
-    end
-    if all(flag1==zeros(1,triangle_num))
-        break;
-    end
-    if all(flag2==ones(1,triangle_cell_num))
-        triangle_cell_num=triangle_cell_num+1;
-        index=min(find(flag1==1));
-        room_triangle_cell{triangle_cell_num}(1,1:18)=room_triangle(index,1:18);
-        triangle_norm_vector_cell{triangle_cell_num}(1,1:3)=triangle_norm_vector(index,1:3);
-        flag1(1,index)=0;
-    end
+% while(1)
+%     triangle_cell_num=size(room_triangle_cell,2);
+%     flag2=ones(1,triangle_cell_num);
+%     for j=1:1:triangle_cell_num
+%         triangle_cell_triangle_num=size(room_triangle_cell{j},1);
+%         triangle_cell_triangle_num_before=triangle_cell_triangle_num;
+%         for k=1:1:triangle_cell_triangle_num
+%             for i=1:1:triangle_num
+%                 flag3=0;
+%                 
+%                 
+%                 if abs(triangle_norm_vector(i,1)-triangle_norm_vector_cell{j}(k,1))<0.1 || abs(triangle_norm_vector(i,2)-triangle_norm_vector_cell{j}(k,2))<0.1
+%                     flag3=1;
+%                 end
+%                 for n=1:1:size(room_triangle_cell{j},1)
+%                      if all(room_triangle_cell{j}(n,1:18)==room_triangle(i,1:18))
+%                          flag3=0;
+%                      end
+%                 end
+%                 if flag3==1
+%                     triangle_cell_triangle_num=triangle_cell_triangle_num+1;
+%                     room_triangle_cell{j}(triangle_cell_triangle_num,1:18)=room_triangle(i,1:18);
+%                     triangle_norm_vector_cell{j}(triangle_cell_triangle_num,1:3)=triangle_norm_vector(i,1:3);
+%                     flag1(1,i)=0;
+%                 end
+%             end
+%         end
+%         triangle_cell_triangle_num_after=size(room_triangle_cell{j},1);
+%         if triangle_cell_triangle_num_before~=triangle_cell_triangle_num_after
+%             flag2(1,j)=0;
+%         end
+%     end
+%     if all(flag1==zeros(1,triangle_num))
+%         break;
+%     end
+%     if all(flag2==ones(1,triangle_cell_num))
+%         triangle_cell_num=triangle_cell_num+1;
+%         index=min(find(flag1==1));
+%         room_triangle_cell{triangle_cell_num}(1,1:18)=room_triangle(index,1:18);
+%         triangle_norm_vector_cell{triangle_cell_num}(1,1:3)=triangle_norm_vector(index,1:3);
+%         flag1(1,index)=0;
+%     end
+% end
+
+for i=1:1:size(room_triangle,1)
+    room_triangle_cell{1}(i,1:18)=room_triangle(i,1:18);
+    triangle_norm_vector_cell{1}(i,1:3)=triangle_norm_vector(i,1:3);
 end
 
-
-%% third step:šgenerate room_plane_triangle_edge_cell from room_triangle_cell
+%% third step:ï¿½generate room_plane_triangle_edge_cell from room_triangle_cell
 for i=1:1:size(room_triangle_cell,2)
     for j=1:1:size(room_triangle_cell{i},1)
         room_plane_triangle_edge_cell{i}(3*j-2,1:6)=room_triangle_cell{i}(j,1:6);

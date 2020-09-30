@@ -526,7 +526,7 @@ def main():
         1.2246467991473532e-16, -1.0, 0.0, -0.19966936360182042, 
         1.0, 1.2246467991473532e-16, 6.123233995736766e-17, -0.5499755605061848, 
         0.0, 0.0, 0.0, 1.0]
-    print("the lower joints are:")
+    # print("the lower joints are:")
     Flag, q_dict = ak47.GetInverseResult_withoutref(tt)
     if Flag==True:
         for i in range(len(q_dict)):
@@ -538,7 +538,7 @@ def main():
          0.0, 1.0, 0.0, 0.20033063639817963, 
         -1.0, 0.0, 6.123233995736766e-17, 0.7800244394938151, 
          0.0, 0.0, 0.0, 1.0]
-    print("the upper joints are: ")
+    # print("the upper joints are: ")
     Flag, q_dict = ak47.GetInverseResult_withoutref(tt)
     if Flag==True:
         for i in range(len(q_dict)):
@@ -551,8 +551,8 @@ def main():
     # delta_time=time2-time1
     # print("the delta_time is:",delta_time)
     # [-0.15079321322034112, -2.514937015882663, -0.2553115016596337, -0.8819671393667647, -1.7215895400152377, -1.5707963267948966]
-
-
+    aubo_q=np.array([-0.2416506062911017, -2.1571399496162584, 0.3902939157726175, -0.594158788200918, -1.8124469330859982, -1.5707963267948966])*180/pi
+    print("the forward kinematics 1 is: ",ak47.aubo_forward(aubo_q))
 if __name__ == "__main__":
     main()
 

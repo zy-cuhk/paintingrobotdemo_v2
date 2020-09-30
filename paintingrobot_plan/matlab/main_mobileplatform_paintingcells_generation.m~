@@ -77,12 +77,13 @@ for i=1:1:size(intersect_plane_dmin_max,2)
     dmax=intersect_plane_dmin_max{i}(1,2);
     plane_num=floor(abs(dmax-dmin)/length_interval);
     if plane_num==0
-        intersect_plane_d{i}(1,1)=dmin+length_interval;
+        
     else
         for j=1:1:plane_num
             intersect_plane_d{i}(1,j)=dmin+j*length_interval;
         end
     end
+
 end
 
 

@@ -66,9 +66,9 @@ room_vertices{2}=room_vertices2{1};
 room_vertices{3}=room_vertices3{1};
 room_vertices{4}=room_vertices4{1};
 
-save(path2,'room_vertices','room_plane_norm_vector','room_plane_edge_cell','room_plane_edge_centroid','room_plane_triangle_edge_cell','room_plane_triangle_cell');
+% save(path2,'room_vertices','room_plane_norm_vector','room_plane_edge_cell','room_plane_edge_centroid','room_plane_triangle_edge_cell','room_plane_triangle_cell');
 
-% save(path2,'room_vertices2','room_plane_norm_vector2','room_plane_edge_cell2','room_plane_edge_centroid2','room_plane_triangle_edge_cell','room_plane_triangle_cell');
+save(path2,'room_vertices2','room_plane_norm_vector2','room_plane_edge_cell2','room_plane_edge_centroid2','room_plane_triangle_edge_cell','room_plane_triangle_cell');
 
 toc;
 

@@ -67,7 +67,8 @@ def main():
             aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
             for m in range(len(aubo_q_list)):
                 aubo_q=aubo_q_list["aubo_data_num_"+str(m)]
-                robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5],0.1,0.0]+aubo_q
+                offset_distance=0.16
+                robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5],offset_distance-0.16,0.0]+aubo_q
                 Aub.pub_state(robot_q)
                 print("robot_q is: ", robot_q)
                 rate.sleep()

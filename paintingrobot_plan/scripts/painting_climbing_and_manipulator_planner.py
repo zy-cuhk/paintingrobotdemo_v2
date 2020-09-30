@@ -60,7 +60,7 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.23+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
+        candidate_manipulatorbase_position[i][2]=1.32+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z
@@ -196,6 +196,12 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
         scheduled_selectedjoints_dict[i]=selected_qlist
         aubo_q_ref=selected_qlist
 
+        # if i==7:
+        #     print("onewaypoint_candidate_joints_dict of point 7 is: ",onewaypoint_candidate_joints_dict)
+        # print("----------------------------------------------")
+        # if i==8:
+        #     print("onewaypoint_candidate_joints_dict of point 8 is: ",onewaypoint_candidate_joints_dict)
+
     # for i in range(len(scheduled_selectedjoints_dict)):
     #     print("the selected joints list is: ",scheduled_selectedjoints_dict[i])
     # print("the waypoints number is:",len(scheduled_selectedjoints_dict))
@@ -204,19 +210,41 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
 def chooseIKonRefJoint(q_sols, q_ref):
     sum_data = List_Frobenius_Norm(q_ref, q_sols[0])
     err = 0
-    index = 0
+    index1 = 0
     for i in range(len(q_sols)):
         err = List_Frobenius_Norm(q_ref, q_sols[i])
         if (err < sum_data):
-            index = i
+            index1 = i
             sum_data = err
-    q_choose = q_sols[index]
+
+    # index2 = 0
+    # for i in range(len(q_sols)):
+    #     if i!=index1:
+    #         err = List_Frobenius_Norm(q_ref, q_sols[i])
+    #         if (err < sum_data):
+    #             index2 = i
+    #             sum_data = err
+    
+    # flag=0
+    # for i in range(len(q_sols)):
+    #     if abs(q_sols[i][5]-q_ref[5])<=0.01:
+    #         flag=1
+    # if flag==1:
+    #     q_choose = q_sols[index1]
+    # else:
+    #     q_choose = q_sols[index2]
+    
+    q_choose = q_sols[index1]
     return True, q_choose
 
 def List_Frobenius_Norm(list_a, list_b):
     new_list = []
+    w=2
     for i in range(len(list_a)):
-        new_list.append(abs(list_a[i] - list_b[i]) ** 2)
+        if i==5:
+            new_list.append(w*abs(list_a[i] - list_b[i]) ** 2)
+        else:
+            new_list.append(abs(list_a[i] - list_b[i]) ** 2)
     return sqrt(sum_list(new_list))
 
 def sum_list(list_data):
@@ -228,8 +256,8 @@ def sum_list(list_data):
 
 if __name__ == "__main__":
     
-    mat_path="/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/second_scan_data3.mat"
-    json_path="/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/coverageplanningresults_dict.json"
+    mat_path="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat"
+    json_path="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json"
 
     "input: renovation_cells_mobilebase_positions and renovation_cells_waypaths" 
     data = io.loadmat(mat_path)
@@ -238,12 +266,12 @@ if __name__ == "__main__":
     renovation_waypaths_orientation=data['renovation_waypaths_orientation']
     
     "the matrix of painting endeffector link with respect to manipulator wrist3 link is shown as follows:"
-    paintinggun_T=np.array([[1.0,0.0,0.0,-0.535],[0.0,1.0,0.0,0.0],[0,0,1.0000,0.200],[0,0,0,1.0000]]) # 0.25 is changed to be 0.20
+    paintinggun_T=np.array([[1.0,0.0,0.0,-0.535],[0.0,1.0,0.0,0.0],[0,0,1.0000,0.250],[0,0,0,1.0000]]) # 0.25 is changed to be 0.20
     mat_computation=pose2mat()
     aubo_computation=Aubo_kinematics()
 
     "manipulator base and climbing joint distance relationship is shown as follows:"
-    manipulatorbase_climbingjoint_distance=1.42
+    manipulatorbase_climbingjoint_distance=1.48
 
     "the planning algorithm framework is shown as follows:"
     renovation_manipulatorbase_positions=multidict()
@@ -260,8 +288,8 @@ if __name__ == "__main__":
             
             "step 1: sample candidate climbing joint values and corresponding manipulator base positions"
             candidate_manipulatorbase_position = sample_climbing_joints(renovation_mobilebase_position_onecell)
-            # while(1):
-            for k in range(3):
+            while(1):
+            # for k in range(3):
                 "step 2: obtain renovation waypaths inside the workspace of candidate manipulator base positions"
                 climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints = obtain_waypaths_insideclimbingworkspace(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T)
                 
@@ -270,9 +298,15 @@ if __name__ == "__main__":
                 selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
                 
                 "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
+                
+                "step 7: exit condition: waypaths are all coverage status"
+                # uncovered painting waypaths number is zero
                 print("the selected waypath number is :", len(selected_cartersian_waypaths))
+                if len(selected_cartersian_waypaths)==0:
+                    break
+
                 scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
-                print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
+                # print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
                 
                 "step 5: using joint space tsp solver to obtain suitable joints value of scheduled waypaths" 
                 scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
@@ -286,11 +320,9 @@ if __name__ == "__main__":
                     renovation_manipualtorwaypoint_cartesianlist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selected_waypoints_list[coverage_waypoints_num][0:3]
                 manipulatorbase_num_inonecell+=1
                 
-                print("-------------------------------------------------------------------------------------")
-                "step 7: exit condition: waypaths are all coverage status"
-                # uncovered painting waypaths number is zero
-                if len(renovation_waypaths_onecell)==0:
-                    break
+                # print("-------------------------------------------------------------------------------------")
+
+
 
     # generate planning_source_dict, and the input include: 
     # renovation_cells_mobilebase_positions[0][plane_num][cell_num][0:6], format: dict
@@ -311,6 +343,7 @@ if __name__ == "__main__":
                 "the manipulator base and climbing joint distance relationship is determined as: 0.6"
                 climbingjoints=[rodclimbing_robot_targetjoints[2]-manipulatorbase_climbingjoint_distance, 0.0]
                 print("climbing joints are:",climbingjoints)
+                
                 coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_climb_num_"+str(j)]["climb_num_"+str(k)]=climbingjoints
 
                 for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
