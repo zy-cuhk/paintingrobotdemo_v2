@@ -6,6 +6,7 @@ path4='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/
 %% obtaining the input
 data=load(path3,'room_vertices','room_plane_norm_vector','room_plane_edge_cell','room_plane_edge_centroid','room_plane_triangle_edge_cell','room_plane_triangle_cell');
 room_plane_norm_vector1=data.room_plane_norm_vector;
+
 for i=1:1:size(room_plane_norm_vector1,2)
     n1=room_plane_norm_vector1{i}(1,1);
     n2=sign(room_plane_norm_vector1{i}(1,2))*sqrt(1-n1^2);
@@ -23,7 +24,7 @@ room_vertices=data.room_vertices;
 %% painting process parameters are listed as follows:
 %% the adjustable parameters can be: painting_gun_to_wall_distance and painting_ellipse_long_axis_length
 wall2_manipulator_paintinggun_distance=0.31;
-painting_ellipse_long_axis_length=0.40;
+painting_ellipse_long_axis_length=0.375;
 painting_ellipse_short_axis_length=0.10;
 painting_path_interval=painting_ellipse_long_axis_length*2/3;
 waypoints_interval=painting_ellipse_short_axis_length/2;

@@ -111,6 +111,7 @@ for i=1:1:size(room_plane_outer_boundary_point,2)
     dmax=intersect_plane1_dmin_max{i}(1,2);
     interval=room_plane_interval{i}(1);
     plane1_num=floor(abs(dmax-dmin)/interval);
+    
     for j=1:1:plane1_num
         intersect_plane1_d{i}(1,j)=dmin+(j-0.5)*interval;
     end
@@ -121,9 +122,20 @@ for i=1:1:size(room_plane_outer_boundary_point,2)
     dmax=intersect_plane2_dmin_max{i}(1,2);
     interval=room_plane_interval{i}(2);
     plane2_num=floor(abs(dmax-dmin)/interval);
-    for j=1:1:plane2_num
-        intersect_plane2_d{i}(1,j)=dmin+(j-0.5)*interval;
+%     for j=1:1:plane2_num
+%         intersect_plane2_d{i}(1,j)=dmin+(j-0.5)*interval;
+%     end
+    if i<=2
+        for j=1:1:plane2_num
+            intersect_plane2_d{i}(1,j)=dmin+(j-0.5)*interval;
+        end
+    else
+        for j=1:1:plane2_num
+            intersect_plane2_d{i}(1,j)=dmax-(j-0.5)*interval;
+        end
     end
+    
+    
 end
 
 for i=1:1:size(room_plane_outer_boundary_point,2)

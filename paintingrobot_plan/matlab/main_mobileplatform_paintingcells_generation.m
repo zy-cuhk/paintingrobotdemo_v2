@@ -241,19 +241,19 @@ for i=1:1:size(renovation_cells_waypaths,2)
 end
 
 
-figure;
-for i=1:1:1
-    for j=1:1:1
-        for m=1:1:size(renovation_cells_waypaths1{i}{j},1)-1
-            xlist=[renovation_cells_waypaths1{i}{j}(m,1),renovation_cells_waypaths1{i}{j}(m,4)];
-            ylist=[renovation_cells_waypaths1{i}{j}(m,2),renovation_cells_waypaths1{i}{j}(m,5)];
-            zlist=[renovation_cells_waypaths1{i}{j}(m,3),renovation_cells_waypaths1{i}{j}(m,6)];
-            plot3(xlist,ylist,zlist,'b','LineWidth',1);
-            hold on;
-        end
-        axis equal;
-    end
-end
+% figure;
+% for i=1:1:1
+%     for j=1:1:1
+%         for m=1:1:size(renovation_cells_waypaths1{i}{j},1)-1
+%             xlist=[renovation_cells_waypaths1{i}{j}(m,1),renovation_cells_waypaths1{i}{j}(m,4)];
+%             ylist=[renovation_cells_waypaths1{i}{j}(m,2),renovation_cells_waypaths1{i}{j}(m,5)];
+%             zlist=[renovation_cells_waypaths1{i}{j}(m,3),renovation_cells_waypaths1{i}{j}(m,6)];
+%             plot3(xlist,ylist,zlist,'b','LineWidth',1);
+%             hold on;
+%         end
+%         axis equal;
+%     end
+% end
        
 
 %% the sequence of renovation mobile base positions and corresponding sequenced renovation cells waypaths and waypaths orientations are shown as follows:
