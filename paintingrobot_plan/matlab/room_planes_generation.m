@@ -15,6 +15,21 @@ for i=1:1:size(room_vertices,2)
         triangle{i}(j,13:18)=pointsort([p1,p3]);
     end
 end
+%% compute the area size for each triangles 
+for i=1:1:size(room_vertices,2)
+    for j=1:1:size(room_vertices{i},1)/3
+        p1=room_vertices{i}(3*j-2,1:3);
+        p2=room_vertices{i}(3*j-1,1:3);
+        p3=room_vertices{i}(3*j,1:3);
+        
+        a=norm(p2-p1);
+        b=norm(p3-p1);
+        c=norm(p3-p2);
+        p=(a+b+c)/2;
+        triangle_area{i}(1,j)=sqrt(p*(p-a)*(p-b)*(p-c));
+    end
+end
+
 %% second step: greedy strategies to build up planes 
 room_triangle=triangle{1};
 triangle_num=size(room_triangle,1);
@@ -111,11 +126,12 @@ for i=1:1:size(room_triangle_cell,2)
         end
     end
     total_n1=0;
+    total_area=0;
     for s=1:1:size(triangle_norm_vector_cell{i},1)
-        
-        total_n1=total_n1+triangle_norm_vector_cell{i}(s,1);
+        total_area=total_area+triangle_area{i}(1,s);
+        total_n1=total_n1+triangle_area{i}(1,s)*triangle_norm_vector_cell{i}(s,1);
     end
-    room_plane_norm_vector{i}(1,1)=total_n1/size(triangle_norm_vector_cell{i},1);
+    room_plane_norm_vector{i}(1,1)=total_n1/total_area;
     room_plane_norm_vector{i}(1,2)=sign(triangle_norm_vector_cell{i}(1,2))*(1-room_plane_norm_vector{i}(1,1)^2);
     room_plane_norm_vector{i}(1,3)=0;
 end 

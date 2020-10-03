@@ -60,7 +60,7 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.32+0.2*i  # the sampled height is 1.2, 1.4 and 1.6
+        candidate_manipulatorbase_position[i][2]=1.32-0.15*i  # the sampled height is 1.2, 1.4 and 1.6
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z
@@ -216,30 +216,13 @@ def chooseIKonRefJoint(q_sols, q_ref):
         if (err < sum_data):
             index1 = i
             sum_data = err
-
-    # index2 = 0
-    # for i in range(len(q_sols)):
-    #     if i!=index1:
-    #         err = List_Frobenius_Norm(q_ref, q_sols[i])
-    #         if (err < sum_data):
-    #             index2 = i
-    #             sum_data = err
-    
-    # flag=0
-    # for i in range(len(q_sols)):
-    #     if abs(q_sols[i][5]-q_ref[5])<=0.01:
-    #         flag=1
-    # if flag==1:
-    #     q_choose = q_sols[index1]
-    # else:
-    #     q_choose = q_sols[index2]
     
     q_choose = q_sols[index1]
     return True, q_choose
 
 def List_Frobenius_Norm(list_a, list_b):
     new_list = []
-    w=2
+    w=1
     for i in range(len(list_a)):
         if i==5:
             new_list.append(w*abs(list_a[i] - list_b[i]) ** 2)
@@ -298,13 +281,7 @@ if __name__ == "__main__":
                 selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
                 
                 "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
-                
-                "step 7: exit condition: waypaths are all coverage status"
-                # uncovered painting waypaths number is zero
                 print("the selected waypath number is :", len(selected_cartersian_waypaths))
-                if len(selected_cartersian_waypaths)==0:
-                    break
-
                 scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
                 # print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
                 
@@ -320,6 +297,11 @@ if __name__ == "__main__":
                     renovation_manipualtorwaypoint_cartesianlist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selected_waypoints_list[coverage_waypoints_num][0:3]
                 manipulatorbase_num_inonecell+=1
                 
+                "step 7: exit condition: waypaths are all coverage status"
+                # uncovered painting waypaths number is zero
+                print("renovation_waypaths_onecell is: ",renovation_waypaths_onecell)
+                if len(renovation_waypaths_onecell)==0:
+                        break
                 # print("-------------------------------------------------------------------------------------")
 
 

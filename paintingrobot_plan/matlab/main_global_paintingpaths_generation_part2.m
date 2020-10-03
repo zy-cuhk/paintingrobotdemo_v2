@@ -23,7 +23,7 @@ room_vertices=data.room_vertices;
 
 %% painting process parameters are listed as follows:
 %% the adjustable parameters can be: painting_gun_to_wall_distance and painting_ellipse_long_axis_length
-wall2_manipulator_paintinggun_distance=0.31;
+wall2_manipulator_paintinggun_distance=0.30;
 painting_ellipse_long_axis_length=0.375;
 painting_ellipse_short_axis_length=0.10;
 painting_path_interval=painting_ellipse_long_axis_length*2/3;
@@ -31,7 +31,7 @@ waypoints_interval=painting_ellipse_short_axis_length/2;
 
 %% generating renovation and mobile base planes 
 [renovation_plane_edge_cell,renovation_plane_norm_vector,renovation_plane_triangle_edge_cell]=room_panning_planes_generation(room_plane_norm_vector,room_plane_edge_cell,room_plane_triangle_edge_cell,wall2_manipulator_paintinggun_distance);
-manipulator_paintinggun2mobilebase_distance=1.28;
+manipulator_paintinggun2mobilebase_distance=1.18;
 panning_distance2=wall2_manipulator_paintinggun_distance+manipulator_paintinggun2mobilebase_distance;
 [manipulatorbase_plane_edge_cell,manipulatorbase_plane_norm_vector,manipulatorbase_plane_triangle_edge_cell]=room_panning_planes_generation(room_plane_norm_vector,room_plane_edge_cell,room_plane_triangle_edge_cell,panning_distance2);
 % renovation_planes_visualization(room_plane_edge_cell, renovation_plane_edge_cell,manipulatorbase_plane_edge_cell);

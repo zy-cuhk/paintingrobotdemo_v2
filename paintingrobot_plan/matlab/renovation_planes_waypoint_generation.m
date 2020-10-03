@@ -98,6 +98,8 @@ end
 for i=1:1:size(room_plane_outer_boundary_point,2)
     l1=abs(intersect_plane1_dmin_max{i}(1,2)-intersect_plane1_dmin_max{i}(1,1));
     l2=abs(intersect_plane2_dmin_max{i}(1,2)-intersect_plane2_dmin_max{i}(1,1));
+    
+    %% the modified position: 
     if l1>=l2
         room_plane_interval{i}(1)=interval1;
         room_plane_interval{i}(2)=interval2;

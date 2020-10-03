@@ -1,3 +1,4 @@
+tic;
 path5='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
 path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
 
@@ -7,7 +8,7 @@ path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/
 % renovation_effective_waypaths=data.renovation_effective_waypaths;
 
 %% cell parameters are shown as follows
-cell_length=0.55;
+cell_length=0.60;
 path_interval=painting_path_interval;
 length_interval=cell_length;
 path_distance=path_interval;
@@ -150,6 +151,10 @@ for i=1:1:size(intersection_line,2)
         dmin=intersect_plane_dmin_max{i}(1,1);
         c2=dmin+(j-0.5)*length_interval;
         
+        %% the modification position for determining the mobile base positions
+        if i==2 && j==1
+            c2=dmin+(j-0.5)*length_interval+0.15;
+        end
         renovation_horizontalcells_mobilebase_points{i}(j,1)=(c2*b1-c1*b2)/(a1*b2-a2*b1);
         renovation_horizontalcells_mobilebase_points{i}(j,2)=(c1*a2-c2*a1)/(a1*b2-a2*b1);
         renovation_horizontalcells_mobilebase_points{i}(j,3)=0;
@@ -264,7 +269,7 @@ save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','
 
 renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions, renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
 
-
+toc;
 
 
 
