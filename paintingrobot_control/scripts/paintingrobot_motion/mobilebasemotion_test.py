@@ -76,11 +76,11 @@ class RenovationRobot():
         list2=[]
         while not rospy.is_shutdown():
             # "some selection for mobile base positions"
-            if plane_num_count==1 and mobile_base_point_count==0:
-                plane_num_count=plane_num_count
-                mobile_base_point_count=mobile_base_point_count+1
+            # if plane_num_count==1 and mobile_base_point_count==0:
+            #     plane_num_count=plane_num_count
+            #     mobile_base_point_count=mobile_base_point_count+1
             
-            if plane_num_count==1 and mobile_base_point_count==len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
+            if plane_num_count==1 and mobile_base_point_count==len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)])-1:
                 plane_num_count=plane_num_count+1
                 mobile_base_point_count=0
 
