@@ -32,8 +32,8 @@ class RenovationRobot():
         return planning_source_dict
         
     def renovationrobot_motion(self,planning_source_dict,rate):
-        plane_num_count=0
-        mobile_base_point_count=0
+        plane_num_count=1
+        mobile_base_point_count=9
         climb_base_count_num=0
         list1=[]
         list2=[]
@@ -78,7 +78,7 @@ class RenovationRobot():
                     climb_base_count_num=0
                     os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
                     break
-                break
+                # break
             # "executing jackup motion of jackup mechanism when operation on one mobile base is over"
             # time1=time.time()
             # jackup_mechanism_homing(rate)
