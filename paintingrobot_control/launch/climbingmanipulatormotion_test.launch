@@ -1,0 +1,37 @@
+<launch>
+  <group ns="renov_up_level">
+  
+    <!-- aubo parameters -->
+    <param name="aubo_ip" value='192.168.1.20'/>
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/>
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
+
+
+    <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
+    <param name="joint_maxvelc_tuple" value='(1.5, 1.5, 1.5, 1.5, 1.5, 1.5)'/> 
+    <param name="ee_maxacc" value='0.2'/> 
+    <param name="ee_maxvelc" value='0.2'/>
+    <param name="blend_radius" value='0.05'/> 
+
+    <!-- FSM parameters -->
+    <param name="mobile_platform_tracking_over_flag" value="0"/>
+    <param name="rodmechanism_holding_over_flag" value="0"/>
+    <param name="climbingmechanism_climbing_over_flag" value="0"/>
+    <param name="manipulator_renovation_over_flag" value="0" />
+    <param name="one_mobilebase_operation_over_flag" value="0" />
+    <param name="jackup_mechanism_homing_over_flag" value="0" />
+
+    <param name="last_motion_phase_over_flag" value="1" />
+    <param name="current_motion_phase_start_flag" value="0" />
+    <param name="current_motion_phase_over_flag" value="0" />
+
+    <!-- the paintingrobot demo code -->
+    <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json" />
+
+
+    <!-- the paintingrobot motion test code -->
+    <node pkg="paintingrobot_control" type="climbingmanipulator_motiontest.py" name="mobilebase_test" output="screen" >
+    </node>
+
+  </group>
+</launch>
