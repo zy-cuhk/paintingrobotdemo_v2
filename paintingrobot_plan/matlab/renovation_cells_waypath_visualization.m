@@ -1,4 +1,4 @@
-function renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell)
+function renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_plane_edge_cell,room_plane_edge_cell)
 
 %% drawing all data
 figure;
@@ -51,13 +51,13 @@ for i=1:1:size(renovation_cells_mobilebase_positions,2)
     scatter3(point_x,point_y,point_z);
     hold on;
 end
-for i=1:1:size(renovation_cells_manipulatorbase_positions,2)
-    point_x=renovation_cells_manipulatorbase_positions{i}(:,1);
-    point_y=renovation_cells_manipulatorbase_positions{i}(:,2);
-    point_z=renovation_cells_manipulatorbase_positions{i}(:,3);
-    scatter3(point_x,point_y,point_z);
-    hold on;
-end
+% for i=1:1:size(renovation_cells_manipulatorbase_positions,2)
+%     point_x=renovation_cells_manipulatorbase_positions{i}(:,1);
+%     point_y=renovation_cells_manipulatorbase_positions{i}(:,2);
+%     point_z=renovation_cells_manipulatorbase_positions{i}(:,3);
+%     scatter3(point_x,point_y,point_z);
+%     hold on;
+% end
 
 for i=1:1:size(room_plane_edge_cell,2)
     for j=1:1:size(room_plane_edge_cell{i},1)

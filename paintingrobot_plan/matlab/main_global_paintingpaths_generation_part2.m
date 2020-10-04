@@ -1,7 +1,14 @@
 clc,clear all,close all;
 tic;
-path3='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data1.mat';
-path4='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+% path3='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data1.mat';
+% path4='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+
+
+% path3='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data1.mat';
+% path4='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+
+path3="/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data1.mat";
+path4="/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat";
 
 %% obtaining the input
 data=load(path3,'room_vertices','room_plane_norm_vector','room_plane_edge_cell','room_plane_edge_centroid','room_plane_triangle_edge_cell','room_plane_triangle_cell');
@@ -45,8 +52,7 @@ distance_waypoints2wallboundary_direction2;
 renovation_planes_waypoint_visualization(renovation_effective_waypoints,room_plane_edge_cell,renovation_plane_edge_cell,renovation_effective_waypaths);
 
 %% save matlab data: renovation_effective_waypoints, renovation_effective_waypoints
-save(path4,'renovation_effective_waypoints','renovation_effective_waypaths');
-
+save(path4,'renovation_effective_waypoints','renovation_effective_waypaths','manipulatorbase_plane_edge_cell','renovation_plane_norm_vector','renovation_plane_edge_cell','painting_path_interval','room_plane_edge_cell');
 
 toc;
 

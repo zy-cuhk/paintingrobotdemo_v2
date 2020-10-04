@@ -155,9 +155,7 @@ for i=1:1:size(intersection_line,2)
         
         a2=intersect_plane_norm_vector1(i,1);
         b2=intersect_plane_norm_vector1(i,2);
-        
         dmin=intersect_plane_dmin_max{i}(1,1);
-        dmax=intersect_plane_dmin_max{i}(1,2);
         c2=dmin+(j-0.5)*length_interval;
         
         %% the modification position for determining the mobile base positions
@@ -165,10 +163,10 @@ for i=1:1:size(intersection_line,2)
             c2=dmin+(j-0.5)*length_interval+0.15;
         end
         if i==2 && j==size(intersection_line{i},1)
-            c2=dmax-0.5*length_interval-0.15;
+            c2=dmax; % -0.5*length_interval; % -0.15;
         end
         if i==3 && j==1
-            c2=dmax-0.5*length_interval-0.15;
+            c2=dmax; %-0.5*length_interval; % -0.15;
         end
         renovation_horizontalcells_mobilebase_points{i}(j,1)=(c2*b1-c1*b2)/(a1*b2-a2*b1);
         renovation_horizontalcells_mobilebase_points{i}(j,2)=(c1*a2-c2*a1)/(a1*b2-a2*b1);
@@ -221,32 +219,46 @@ for i=1:1:size(renovation_cells_waypaths,2)
     end
 end
 
-%% obtain waypaths positions in the original manipulator base frame 
-% parameterx=0.430725381079;
-% parametery=-0.00033063639818;
 % for i=1:1:size(renovation_cells_waypaths,2)
+%     num=1;
 %     for j=1:1:size(renovation_cells_waypaths{i},2)
-%         theta_z=renovation_cells_mobilebase_positions{i}(j,6);
-%         deltax=parameterx*cos(theta_z)-parametery*sin(theta_z);
-%         deltay=parameterx*sin(theta_z)+parametery*cos(theta_z);
-%         
-%         renovation_cells_manipulatorbase_positions{i}(j,1)=renovation_cells_mobilebase_positions{i}(j,1)+deltax;
-%         renovation_cells_manipulatorbase_positions{i}(j,2)=renovation_cells_mobilebase_positions{i}(j,2)+deltay;
-%         renovation_cells_manipulatorbase_positions{i}(j,3)=1.3;
-%         renovation_cells_manipulatorbase_positions{i}(j,4)=0;
-%         renovation_cells_manipulatorbase_positions{i}(j,5)=0;
-%         renovation_cells_manipulatorbase_positions{i}(j,6)=theta_z;
-%         
-%         for k=1:1:size(renovation_cells_waypaths{i}{j},1)
-%             delta_waypoint1=renovation_cells_waypaths{i}{j}(k,1:3)-renovation_cells_manipulatorbase_positions{i}(j,1:3);
-%             delta_waypoint2=renovation_cells_waypaths{i}{j}(k,4:6)-renovation_cells_manipulatorbase_positions{i}(j,1:3);
-%             list1=rotz(theta_z)'*delta_waypoint1';
-%             renovation_cells_waypaths1{i}{j}(k,1:3)=list1';
-%             list2=rotz(theta_z)'*delta_waypoint2';
-%             renovation_cells_waypaths1{i}{j}(k,4:6)=list2';
+%         for m=1:1:size(renovation_cells_waypaths{i}{j},1)
+%             renovation_cells_waypoints{i}(num,1:3)=renovation_cells_waypaths{i}{j}(m,1:3);
+%             num=num+1;
+%             renovation_cells_waypoints{i}(num,1:3)=renovation_cells_waypaths{i}{j}(m,4:6);
+%             num=num+1;
 %         end
 %     end
 % end
+
+%% obtain waypaths positions in the original manipulator base frame 
+parameterx=0.430725381079;
+parametery=-0.00033063639818;
+for i=1:1:size(renovation_cells_waypaths,2)
+    for j=1:1:size(renovation_cells_waypaths{i},2)
+        theta_z=renovation_cells_mobilebase_positions{i}(j,6);
+        deltax=parameterx*cos(theta_z)-parametery*sin(theta_z);
+        deltay=parameterx*sin(theta_z)+parametery*cos(theta_z);
+        
+        renovation_cells_manipulatorbase_positions{i}(j,1)=renovation_cells_mobilebase_positions{i}(j,1)+deltax;
+        renovation_cells_manipulatorbase_positions{i}(j,2)=renovation_cells_mobilebase_positions{i}(j,2)+deltay;
+        renovation_cells_manipulatorbase_positions{i}(j,3)=1.3;
+        renovation_cells_manipulatorbase_positions{i}(j,4)=0;
+        renovation_cells_manipulatorbase_positions{i}(j,5)=0;
+        renovation_cells_manipulatorbase_positions{i}(j,6)=theta_z;
+        
+        for k=1:1:size(renovation_cells_waypaths{i}{j},1)
+            delta_waypoint1=renovation_cells_waypaths{i}{j}(k,1:3)-renovation_cells_manipulatorbase_positions{i}(j,1:3);
+            delta_waypoint2=renovation_cells_waypaths{i}{j}(k,4:6)-renovation_cells_manipulatorbase_positions{i}(j,1:3);
+            list1=rotz(theta_z)'*delta_waypoint1';
+            renovation_cells_waypaths1{i}{j}(k,1:3)=list1';
+            list2=rotz(theta_z)'*delta_waypoint2';
+            renovation_cells_waypaths1{i}{j}(k,4:6)=list2';
+        end
+    end
+end
+
+
 % figure;
 % for i=1:1:1
 %     for j=1:1:1
@@ -266,8 +278,11 @@ end
 %% as only three planes to be painted, the planes sequence is adjusted by manpower
 
 
+
+f
 save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
-renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
+
+renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions, renovation_cells_manipulatorbase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
 
 toc;
 
