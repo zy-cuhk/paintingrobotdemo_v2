@@ -63,7 +63,7 @@ def main():
         robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5]]+temp2
         Aub.pub_state(robot_q)
         rate.sleep()
-
+        
         while not rospy.is_shutdown():
 
             climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]

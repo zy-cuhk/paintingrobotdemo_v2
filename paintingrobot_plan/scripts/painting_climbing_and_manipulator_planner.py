@@ -277,76 +277,6 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
     # print("the waypoints number is:",len(scheduled_selectedjoints_dict))
     return scheduled_selectedjoints_dict,scheduled_selected_waypoints_list
 
-def manipulator_jointspace_tspsolver1(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T):
-    "step 1: obtain scheduled waypoints list based on the selected strokes"
-    scheduled_selected_waypoints_list=[]
-    manipulator_strokes_number=0
-    for i in range(len(scheduled_selected_strokes_dict)):
-        for j in range(len(scheduled_selected_strokes_dict[i])):
-            manipulator_strokes_number+=1
-            scheduled_selected_waypoints_list.append(scheduled_selected_strokes_dict[i][j][0:3])
-            if j==len(scheduled_selected_strokes_dict[i])-1:
-                scheduled_selected_waypoints_list.append(scheduled_selected_strokes_dict[i][j][3:6])    
-    "step 2: obtain the joint space solutions for each waypoint"
-    waypoints_candidate_joints_dict=defaultdict(defaultdict)
-    scheduled_selectedjoints_dict=defaultdict(defaultdict)
-    aubo_q_ref=np.array([0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57])
-    
-    "step 3: select the 1st configuration [0,pi/2,0]"
-    for i in range(len(scheduled_selected_waypoints_list)):
-        onewaypoint_candidate_joints_dict=defaultdict(defaultdict)
-
-        xyz0=scheduled_selected_waypoints_list[i][0:3]-selected_manipulatorbase_position[0:3]
-        manipulator_base_orientation=selected_manipulatorbase_position[3:6]
-        rot=mat_computation.rpy2r(manipulator_base_orientation).T
-        xyz=np.dot(rot, xyz0).T
-
-        rpy1=[0,pi/2,0]
-        paint_T1 = mat_computation.Tmat(xyz,rpy1)
-        manipulator_T_list1 = manipulator_T_computation(paint_T1, paintinggun_T)
-        flag1, q_dict1 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list1)
-
-        if flag1==True:
-            num=0
-            for num1 in range(len(q_dict1)):
-                if q_dict1[num1][0]<2.2:
-                    onewaypoint_candidate_joints_dict[num]=q_dict1[num1]
-                    waypoints_candidate_joints_dict[i][num]=q_dict1[num1]
-                    num+=1
-
-            flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
-            scheduled_selectedjoints_dict[i]=selected_qlist
-            aubo_q_ref=selected_qlist
-
-    "step 4: select the second robot configuration [0,pi/2,pi]"
-    # for i in range(len(scheduled_selected_waypoints_list)):
-    #     onewaypoint_candidate_joints_dict=defaultdict(defaultdict)
-
-    #     xyz0=scheduled_selected_waypoints_list[i][0:3]-selected_manipulatorbase_position[0:3]
-    #     manipulator_base_orientation=selected_manipulatorbase_position[3:6]
-    #     rot=mat_computation.rpy2r(manipulator_base_orientation).T
-    #     xyz=np.dot(rot, xyz0).T
-        # paint_T2 = mat_computation.Tmat(xyz,rpy2)
-
-    #     rpy2=[0,pi/2,pi]
-    #     paint_T2 = mat_computation.Tmat(xyz,rpy2)
-    #     manipulator_T_list2 = manipulator_T_computation(paint_T2, paintinggun_T)
-    #     flag2, q_dict2 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list2)
-    #     num=0
-    #     for num2 in range(len(q_dict2)):
-    #         if q_dict2[num2][0]<2.2:
-    #             onewaypoint_candidate_joints_dict[num]=q_dict2[num2]
-    #             waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
-    #             num+=1    
-
-    #     flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
-    #     scheduled_selectedjoints_dict[i]=selected_qlist
-    #     aubo_q_ref=selected_qlist
-
-
-    return scheduled_selectedjoints_dict,scheduled_selected_waypoints_list
-
-
 def chooseIKonRefJoint(q_sols, q_ref):
     sum_data = List_Frobenius_Norm(q_ref, q_sols[0])
     err = 0
@@ -381,6 +311,7 @@ if __name__ == "__main__":
     
     mat_path="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat"
     json_path="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json"
+    json_path1="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict1.json"
 
     "input: renovation_cells_mobilebase_positions and renovation_cells_waypaths" 
     data = io.loadmat(mat_path)
@@ -480,9 +411,28 @@ if __name__ == "__main__":
         json.dump(coverageplanningresults_dict, f, sort_keys=True, indent=4, separators=(', ', ': '), ensure_ascii=False)
 
 
-    ##-----------------------------------------------------------------------------------------------------------
-    ## sparse the data
+    coverageplanningresults_dict1=multidict()
+    for i in range(len(renovation_manipulatorbase_positions)):
+        for j in range(len(renovation_manipulatorbase_positions[i])):
+            flag_state=0
+            if i==1 and j==0:
+                flag_state=1
+            if i==1 and j==len(renovation_manipulatorbase_positions[i])-1:
+                flag_state=1
+            if i==2 and j==0:
+                flag_state=1
+            if flag_state==1:
+                for k in range(len(renovation_manipulatorbase_positions[i][j])):
+                    for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
+                        aubo_targetjoints=renovation_manipulatorwaypoint_jointslist[i][j][k][m]
+                        coverageplanningresults_dict1["plane_num_"+str(i)]["current_mobile_way_aubojoint_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["aubo_data_num_"+str(m)]=aubo_targetjoints
 
+    with open(json_path1,'w') as f:
+        json.dump(coverageplanningresults_dict1, f, sort_keys=True, indent=4, separators=(', ', ': '), ensure_ascii=False)
+
+
+    "-----------------------------------------------------------------------------------------------------------"
+    "sparse the data"
     # with open("/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/coverageplanningresults_dict.json",'r') as f:
     #     planning_source_dict=json.load(f)
     # plane_num_count=0
