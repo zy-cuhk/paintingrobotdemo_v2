@@ -118,6 +118,60 @@ def obtain_waypaths_insideclimbingworkspace(candidate_manipulatorbase_position,r
     return climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints
 
 
+def obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T):
+    rmax=1.7
+    climbingjoints_coverage_number=np.zeros(len(candidate_manipulatorbase_position))
+    cartersianwaypaths_incandidateclimbingjoints=defaultdict(defaultdict)
+    cartersianwaypaths_outof_candidateclimbingjoints=defaultdict(defaultdict)
+
+    for candidate_num in range(len(candidate_manipulatorbase_position)):
+        coverage_waypaths_num=0
+        uncoverage_waypaths_num=0
+        for k in range(len(renovation_waypaths_onecell)):
+            "obtain cartesian waypaths inside manipulator workspace" 
+            delat_vector1=renovation_waypaths_onecell[k][0:3]-candidate_manipulatorbase_position[candidate_num][0:3]
+            distance1=sqrt(delat_vector1[0]**2+delat_vector1[1]**2+delat_vector1[2]**2)
+            delat_vector2=renovation_waypaths_onecell[k][3:6]-candidate_manipulatorbase_position[candidate_num][0:3]
+            distance2=sqrt(delat_vector2[0]**2+delat_vector2[1]**2+delat_vector2[2]**2)
+            if distance1<rmax and distance2<rmax:
+                "remove waypaths without satisfied joint space solutions"
+                flag_point=[0,0]
+                for m in range(2):
+                    xyz0=renovation_waypaths_onecell[k][3*m:3*m+3]-candidate_manipulatorbase_position[candidate_num][0:3]
+                    manipulator_base_orientation=candidate_manipulatorbase_position[candidate_num][3:6]
+                    rot=mat_computation.rpy2r(manipulator_base_orientation).T
+                    xyz=np.dot(rot, xyz0).T
+
+                    rpy1=[0,pi/2,0]
+                    rpy2=[0,pi/2,pi]
+                    paint_T1 = mat_computation.Tmat(xyz,rpy1)
+                    manipulator_T_list1 = manipulator_T_computation(paint_T1, paintinggun_T)
+                    flag1, q_dict1 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list1)
+                    paint_T2 = mat_computation.Tmat(xyz,rpy2)
+                    manipulator_T_list2 = manipulator_T_computation(paint_T2, paintinggun_T)
+                    flag2, q_dict2 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list2)
+
+                    if flag1==True or flag2==True:
+                        flag_point[m] = 1
+
+                    if candidate_num==0 and renovation_waypaths_onecell[k][2]<=1.3: 
+                        flag_point[m] = 0
+
+                if flag_point[0]==1 and flag_point[1]==1:
+                    cartersianwaypaths_incandidateclimbingjoints[candidate_num][coverage_waypaths_num]=renovation_waypaths_onecell[k][0:6]  
+                    coverage_waypaths_num+=1
+                else:
+                    cartersianwaypaths_outof_candidateclimbingjoints[candidate_num][uncoverage_waypaths_num]=renovation_waypaths_onecell[k][0:6]  
+                    uncoverage_waypaths_num+=1
+            else:
+                cartersianwaypaths_outof_candidateclimbingjoints[candidate_num][uncoverage_waypaths_num]=renovation_waypaths_onecell[k][0:6]  
+                uncoverage_waypaths_num+=1
+        climbingjoints_coverage_number[candidate_num]=coverage_waypaths_num
+        print("the position number and corresponding coverage and uncoverage state is:",candidate_num,coverage_waypaths_num,uncoverage_waypaths_num)
+
+    return climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints
+
+
 def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints):
     "obtain the selected climbing position and waypaths contained inside the workspace of selected climbing position"
 
@@ -131,7 +185,7 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_number[i]=climbingjoints_coverage_number[i]
 
-    weight=1
+    weight=0
     sampled_coveragepaths_evaluator=np.zeros(len(candidate_manipulatorbase_position))
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_evaluator[i]=sampled_coveragepaths_number[i]/(1+weight*sampled_motiondistance[i])
@@ -213,7 +267,6 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
                 waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
                 num+=1    
 
-
         flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
         scheduled_selectedjoints_dict[i]=selected_qlist
         aubo_q_ref=selected_qlist
@@ -223,6 +276,76 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
     #     print("the selected joints list is: ",scheduled_selectedjoints_dict[i])
     # print("the waypoints number is:",len(scheduled_selectedjoints_dict))
     return scheduled_selectedjoints_dict,scheduled_selected_waypoints_list
+
+def manipulator_jointspace_tspsolver1(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T):
+    "step 1: obtain scheduled waypoints list based on the selected strokes"
+    scheduled_selected_waypoints_list=[]
+    manipulator_strokes_number=0
+    for i in range(len(scheduled_selected_strokes_dict)):
+        for j in range(len(scheduled_selected_strokes_dict[i])):
+            manipulator_strokes_number+=1
+            scheduled_selected_waypoints_list.append(scheduled_selected_strokes_dict[i][j][0:3])
+            if j==len(scheduled_selected_strokes_dict[i])-1:
+                scheduled_selected_waypoints_list.append(scheduled_selected_strokes_dict[i][j][3:6])    
+    "step 2: obtain the joint space solutions for each waypoint"
+    waypoints_candidate_joints_dict=defaultdict(defaultdict)
+    scheduled_selectedjoints_dict=defaultdict(defaultdict)
+    aubo_q_ref=np.array([0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57])
+    
+    "step 3: select the 1st configuration [0,pi/2,0]"
+    for i in range(len(scheduled_selected_waypoints_list)):
+        onewaypoint_candidate_joints_dict=defaultdict(defaultdict)
+
+        xyz0=scheduled_selected_waypoints_list[i][0:3]-selected_manipulatorbase_position[0:3]
+        manipulator_base_orientation=selected_manipulatorbase_position[3:6]
+        rot=mat_computation.rpy2r(manipulator_base_orientation).T
+        xyz=np.dot(rot, xyz0).T
+
+        rpy1=[0,pi/2,0]
+        paint_T1 = mat_computation.Tmat(xyz,rpy1)
+        manipulator_T_list1 = manipulator_T_computation(paint_T1, paintinggun_T)
+        flag1, q_dict1 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list1)
+
+        if flag1==True:
+            num=0
+            for num1 in range(len(q_dict1)):
+                if q_dict1[num1][0]<2.2:
+                    onewaypoint_candidate_joints_dict[num]=q_dict1[num1]
+                    waypoints_candidate_joints_dict[i][num]=q_dict1[num1]
+                    num+=1
+
+            flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
+            scheduled_selectedjoints_dict[i]=selected_qlist
+            aubo_q_ref=selected_qlist
+
+    "step 4: select the second robot configuration [0,pi/2,pi]"
+    # for i in range(len(scheduled_selected_waypoints_list)):
+    #     onewaypoint_candidate_joints_dict=defaultdict(defaultdict)
+
+    #     xyz0=scheduled_selected_waypoints_list[i][0:3]-selected_manipulatorbase_position[0:3]
+    #     manipulator_base_orientation=selected_manipulatorbase_position[3:6]
+    #     rot=mat_computation.rpy2r(manipulator_base_orientation).T
+    #     xyz=np.dot(rot, xyz0).T
+        # paint_T2 = mat_computation.Tmat(xyz,rpy2)
+
+    #     rpy2=[0,pi/2,pi]
+    #     paint_T2 = mat_computation.Tmat(xyz,rpy2)
+    #     manipulator_T_list2 = manipulator_T_computation(paint_T2, paintinggun_T)
+    #     flag2, q_dict2 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list2)
+    #     num=0
+    #     for num2 in range(len(q_dict2)):
+    #         if q_dict2[num2][0]<2.2:
+    #             onewaypoint_candidate_joints_dict[num]=q_dict2[num2]
+    #             waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
+    #             num+=1    
+
+    #     flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
+    #     scheduled_selectedjoints_dict[i]=selected_qlist
+    #     aubo_q_ref=selected_qlist
+
+
+    return scheduled_selectedjoints_dict,scheduled_selected_waypoints_list
+
 
 def chooseIKonRefJoint(q_sols, q_ref):
     sum_data = List_Frobenius_Norm(q_ref, q_sols[0])
@@ -292,7 +415,7 @@ if __name__ == "__main__":
             while(1):
             # for k in range(3):
                 "step 2: obtain renovation waypaths inside the workspace of candidate manipulator base positions"
-                climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints = obtain_waypaths_insideclimbingworkspace(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T)
+                climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints = obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T)
                 
                 "step 3: select the best climbing joints value"
                 "candidate_manipulatorbase_position and renovation_waypaths_onecell are new obtained"
