@@ -55,12 +55,12 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     deltay=parameterx*sin(theta_z)+parametery*cos(theta_z)
 
     "sampling manipulator base positions"
-    candidate_manipulatorbase_num=3
+    candidate_manipulatorbase_num=2
     candidate_manipulatorbase_position=np.zeros((candidate_manipulatorbase_num,6))
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.38-0.11*i  # the sampled point is: 1.38; 1.28 and 1.18
+        candidate_manipulatorbase_position[i][2]=1.38-0.22*i  # the sampled point is: 1.38; 1.28 and 1.18
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z
@@ -154,7 +154,7 @@ def obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,
                     if flag1==True or flag2==True:
                         flag_point[m] = 1
 
-                    if candidate_num==0 and renovation_waypaths_onecell[k][2]<=1.3: 
+                    if candidate_num==0 and renovation_waypaths_onecell[k][2]<=1.3 and len(candidate_manipulatorbase_position)==2: 
                         flag_point[m] = 0
 
                 if flag_point[0]==1 and flag_point[1]==1:
@@ -185,7 +185,7 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_number[i]=climbingjoints_coverage_number[i]
 
-    weight=0
+    weight=5
     sampled_coveragepaths_evaluator=np.zeros(len(candidate_manipulatorbase_position))
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_evaluator[i]=sampled_coveragepaths_number[i]/(1+weight*sampled_motiondistance[i])
