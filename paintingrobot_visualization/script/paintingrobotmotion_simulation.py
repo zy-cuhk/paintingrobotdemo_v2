@@ -49,6 +49,7 @@ def main():
     rate = rospy.Rate(ratet)
     temp1=[0.0, 0.0, 0.0, 0.0, 0.0]
     temp2=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+    temp3=[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
 
     coverage_json_path=rospy.get_param("coverage_json_path")
     with open(coverage_json_path,'r') as f:
@@ -56,6 +57,7 @@ def main():
     plane_num_count=0
     mobile_base_point_count=0
     climb_base_count_num=0
+    offset_distance=0.06
     while not rospy.is_shutdown():
         mobiledata=planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]["mobile_data_num_"+str(mobile_base_point_count)]     
         robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5]]+temp2
@@ -64,11 +66,16 @@ def main():
 
         while not rospy.is_shutdown():
 
+            climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
+            robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5], climb_data[0]+offset_distance, climb_data[1]]+temp3
+            Aub.pub_state(robot_q)
+            print("robot_q is: ", robot_q)
+            rate.sleep()
+
             aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
             for m in range(len(aubo_q_list)):
                 aubo_q=aubo_q_list["aubo_data_num_"+str(m)]
-                offset_distance=0.16
-                robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5],offset_distance-0.16,0.0]+aubo_q
+                robot_q=[mobiledata[0], -mobiledata[1], mobiledata[5],climb_data[0]+offset_distance, climb_data[1]]+aubo_q
                 Aub.pub_state(robot_q)
                 print("robot_q is: ", robot_q)
                 rate.sleep()
