@@ -203,22 +203,21 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
         flag2, q_dict2 = aubo_computation.GetInverseResult_withoutref(manipulator_T_list2)
         num=0
         for num1 in range(len(q_dict1)):
-            onewaypoint_candidate_joints_dict[num]=q_dict1[num1]
-            waypoints_candidate_joints_dict[i][num]=q_dict1[num1]
-            num+=1
+            if q_dict1[num1][0]<2.2:
+                onewaypoint_candidate_joints_dict[num]=q_dict1[num1]
+                waypoints_candidate_joints_dict[i][num]=q_dict1[num1]
+                num+=1
         for num2 in range(len(q_dict2)):
-            onewaypoint_candidate_joints_dict[num]=q_dict2[num2]
-            waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
-            num+=1    
+            if q_dict2[num2][0]<2.2:
+                onewaypoint_candidate_joints_dict[num]=q_dict2[num2]
+                waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
+                num+=1    
+
+
         flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
         scheduled_selectedjoints_dict[i]=selected_qlist
         aubo_q_ref=selected_qlist
 
-        # if i==7:
-        #     print("onewaypoint_candidate_joints_dict of point 7 is: ",onewaypoint_candidate_joints_dict)
-        # print("----------------------------------------------")
-        # if i==8:
-        #     print("onewaypoint_candidate_joints_dict of point 8 is: ",onewaypoint_candidate_joints_dict)
 
     # for i in range(len(scheduled_selectedjoints_dict)):
     #     print("the selected joints list is: ",scheduled_selectedjoints_dict[i])

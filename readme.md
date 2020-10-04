@@ -69,6 +69,5 @@ the problems of our proposed algorithm
 3. manipulator path plannning problem should be solved firstly: already finished 
 4. visualizing the online planning result each time 
 
-step 1: after the manipulator path planning problem is solved out, then test the performance of manipulator and climbing mechanism
-
-step 2: 
+problem 1:
+the inverse kinematic results is not right
