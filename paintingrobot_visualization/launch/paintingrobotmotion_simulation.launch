@@ -5,7 +5,7 @@
 
   <node name="paintingrobotmotion_simulation" pkg="paintingrobot_visualization" type="paintingrobotmotion_simulation.py" output="screen" />
 
-  <node name="paintingrobotpathposition_visualization" pkg="paintingrobot_visualization" type="paintingrobotpathposition_visualization.py" output="screen" />
+  <node name="paintingrobotpathposition_visualization" pkg="paintingrobot_visualization" type="paintingrobot_offlinepathposition_visualization.py" output="screen" />
 
   <node name="paintingrobotscene_visualization" pkg="paintingrobot_visualization" type="paintingrobotscene_visualization" respawn="false" output="screen" />
 

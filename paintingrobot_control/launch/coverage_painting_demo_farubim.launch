@@ -2,9 +2,9 @@
   <group ns="renov_up_level">
   
     <!-- aubo parameters -->
-    <param name="aubo_ip" value='192.168.1.11'/>
-    <param name="aubo_start_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/>
-    <param name="aubo_end_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
+    <param name="aubo_ip" value='192.168.1.20'/>
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/>
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
 
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
@@ -12,6 +12,7 @@
     <param name="ee_maxacc" value='0.2'/> 
     <param name="ee_maxvelc" value='0.2'/>
     <param name="blend_radius" value='0.05'/> 
+
 
     <!-- FSM parameters -->
     <param name="mobile_platform_tracking_over_flag" value="0"/>
@@ -21,18 +22,15 @@
     <param name="one_mobilebase_operation_over_flag" value="0" />
     <param name="jackup_mechanism_homing_over_flag" value="0" />
 
-    <param name="last_motion_phase_over_flag" value="0" />
+    <param name="last_motion_phase_over_flag" value="1" />
     <param name="current_motion_phase_start_flag" value="0" />
     <param name="current_motion_phase_over_flag" value="0" />
 
+
     <!-- the paintingrobot demo code -->
-    <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobot_zy/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/data/coverageplanningresults_dict.json" />
+    <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json" />
     <node pkg="paintingrobot_control" type="coverage_painting_demo_farubim.py" name="coverage_painting_operation" output="screen" >
     </node>
-
-    <!-- the paintingrobot motion test code -->
-    <!-- <node pkg="paintingrobot_control" type="paintingrobot_motion_test.py" name="paintingrobot_test" output="screen" >
-    </node> -->
 
   </group>
 </launch>

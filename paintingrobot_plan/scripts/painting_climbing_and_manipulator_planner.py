@@ -315,9 +315,9 @@ if __name__ == "__main__":
 
     "input: renovation_cells_mobilebase_positions and renovation_cells_waypaths" 
     data = io.loadmat(mat_path)
-    renovation_cells_waypaths=data['renovation_cells_waypaths']
-    renovation_cells_mobilebase_positions=data['renovation_cells_mobilebase_positions']
-    renovation_waypaths_orientation=data['renovation_waypaths_orientation']
+    renovation_cells_waypaths=data['renovation_cells_waypaths2']
+    renovation_cells_mobilebase_positions=data['renovation_cells_mobilebase_positions2']
+    renovation_waypaths_orientation=data['renovation_waypaths_orientation2']
     
     "the matrix of painting endeffector link with respect to manipulator wrist3 link is shown as follows:"
     paintinggun_T=np.array([[1.0,0.0,0.0,-0.535],[0.0,1.0,0.0,0.0],[0,0,1.0000,0.250],[0,0,0,1.0000]]) # 0.25 is changed to be 0.20
@@ -384,11 +384,17 @@ if __name__ == "__main__":
     # renovation_manipualtorwaypoint_cartesianlist[plane_num][cell_num][manipulatorbase_num][waypaths_num][0:6], format: dict
     # renovation_manipulatorwaypoint_jointslist[plane_num][cell_num][manipulatorbase_num][waypaths_num][0:6], format: dict 
 
+
+
     coverageplanningresults_dict=multidict()
     for i in range(len(renovation_manipulatorbase_positions)):
         for j in range(len(renovation_manipulatorbase_positions[i])):
             mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
             coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
+
+            renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j].tolist()
+            coverageplanningresults_dict["plane_num_"+str(i)]["plane_renovationcells_num_"+str(i)]["renovationcells_num_"+str(j)]=renovation_waypaths_onecell
+
 
             for k in range(len(renovation_manipulatorbase_positions[i][j])):
                 rodclimbing_robot_targetjoints=renovation_manipulatorbase_positions[i][j][k].tolist()
@@ -411,24 +417,6 @@ if __name__ == "__main__":
         json.dump(coverageplanningresults_dict, f, sort_keys=True, indent=4, separators=(', ', ': '), ensure_ascii=False)
 
 
-    coverageplanningresults_dict1=multidict()
-    for i in range(len(renovation_manipulatorbase_positions)):
-        for j in range(len(renovation_manipulatorbase_positions[i])):
-            flag_state=0
-            if i==1 and j==0:
-                flag_state=1
-            if i==1 and j==len(renovation_manipulatorbase_positions[i])-1:
-                flag_state=1
-            if i==2 and j==0:
-                flag_state=1
-            if flag_state==1:
-                for k in range(len(renovation_manipulatorbase_positions[i][j])):
-                    for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
-                        aubo_targetjoints=renovation_manipulatorwaypoint_jointslist[i][j][k][m]
-                        coverageplanningresults_dict1["plane_num_"+str(i)]["current_mobile_way_aubojoint_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["aubo_data_num_"+str(m)]=aubo_targetjoints
-
-    with open(json_path1,'w') as f:
-        json.dump(coverageplanningresults_dict1, f, sort_keys=True, indent=4, separators=(', ', ': '), ensure_ascii=False)
 
 
     "-----------------------------------------------------------------------------------------------------------"

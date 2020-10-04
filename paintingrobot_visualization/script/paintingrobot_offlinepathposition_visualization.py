@@ -77,9 +77,9 @@ def coordinate_frame_visualization(visualization_num, robotplacement_pose):
     points.scale.x = 0.1
     points.scale.y = 0.1
     "LINE_STRIP markers use only the x component of scale, for the line width"
-    x_axis.scale.x = 0.05
-    y_axis.scale.x = 0.05
-    z_axis.scale.x = 0.05
+    x_axis.scale.x = 0.04
+    y_axis.scale.x = 0.04
+    z_axis.scale.x = 0.04
 
     points.color.r = 0.1
     points.color.g = 0.1
@@ -170,33 +170,31 @@ if __name__ == "__main__":
     climb_base_count_num=0
     visualization_num=1
     while not rospy.is_shutdown():
-        while not rospy.is_shutdown():
-            "visualize aubo path"
-            aubo_p_list=coverageplanningresults_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+str(climb_base_count_num)]
-            manipulatorendeffector_targetpose_onecell=np.zeros((len(aubo_p_list),3))
-            for i in range(len(aubo_p_list)):
-                manipulatorendeffector_targetpose_onecell[i][0] = aubo_p_list["cartesianposition_num_"+str(i)][0]
-                manipulatorendeffector_targetpose_onecell[i][1] = aubo_p_list["cartesianposition_num_"+str(i)][1]
-                manipulatorendeffector_targetpose_onecell[i][2] = aubo_p_list["cartesianposition_num_"+str(i)][2]
-            visualization_num, manipulator_path=path_visualization(visualization_num,manipulatorendeffector_targetpose_onecell)
+
+        "visualize aubo offline path"
+        renovation_waypaths_onecell=coverageplanningresults_dict["plane_num_"+str(plane_num_count)]["plane_renovationcells_num_"+str(plane_num_count)]["renovationcells_num_"+str(mobile_base_point_count)]
+        renovation_onewaypath_onecell=np.zeros((2,3))
+        for i in range(len(renovation_waypaths_onecell)):
+            renovation_onewaypath_onecell[0][0] = renovation_waypaths_onecell[i][0]
+            renovation_onewaypath_onecell[0][1] = renovation_waypaths_onecell[i][1]
+            renovation_onewaypath_onecell[0][2] = renovation_waypaths_onecell[i][2]
+
+            renovation_onewaypath_onecell[1][0] = renovation_waypaths_onecell[i][3]
+            renovation_onewaypath_onecell[1][1] = renovation_waypaths_onecell[i][4]
+            renovation_onewaypath_onecell[1][2] = renovation_waypaths_onecell[i][5]
+
+            visualization_num, manipulator_path=path_visualization(visualization_num,renovation_onewaypath_onecell)
             visualization_num=visualization_num+1
             pub_state.publish(manipulator_path)
             # rate.sleep()
 
-            "visualize manipulator base coordinate frame"
-            rodclimbing_robot_targetjoints=coverageplanningresults_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_manipulatorbase_num_"+str(mobile_base_point_count)]["manipulatorbase_num_"+str(climb_base_count_num)]
-            visualization_num, point, x_axis, y_axis, z_axis= coordinate_frame_visualization(visualization_num, rodclimbing_robot_targetjoints)
-            visualization_num=visualization_num+1
-            pub_state.publish(point)
-            pub_state.publish(x_axis)
-            pub_state.publish(y_axis)
-            pub_state.publish(z_axis)
-
+        while not rospy.is_shutdown():
             climb_base_count_num+=1
             if climb_base_count_num>=len(coverageplanningresults_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
                 mobile_base_point_count+=1
                 climb_base_count_num=0
                 break
+
 
         if mobile_base_point_count >= len(coverageplanningresults_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
             plane_num_count+=1 

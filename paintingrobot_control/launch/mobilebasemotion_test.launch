@@ -3,8 +3,8 @@
   
     <!-- aubo parameters -->
     <param name="aubo_ip" value='192.168.1.20'/>
-    <param name="aubo_start_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/>
-    <param name="aubo_end_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/>
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
 
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
