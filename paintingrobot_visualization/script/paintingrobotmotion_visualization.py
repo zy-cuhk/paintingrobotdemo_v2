@@ -16,7 +16,7 @@ class Renovationrobot_joints_pub():
         self.mobile_platform_joints_value=[0.0,0.0,0.0]
         self.jackup_mechanism_joints_value=[0.0,0.0]
         self.aubo_joints_value=[0.0,0.0,0.0,0.0,0.0,0.0]
-        self.rodmechanism2ground_offsetlength1=0.86
+        self.rodmechanism2ground_offsetlength1=0.76
         self.rodmechanism2ground_offsetlength2=-1.32
 
         self.aubo_joints_sub=rospy.Subscriber('/renov_up_level/aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)

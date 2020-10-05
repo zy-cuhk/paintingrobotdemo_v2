@@ -16,6 +16,8 @@ from sensor_msgs.msg import JointState
 class Renovation_operation():
     def __init__(self):
         self.current_joints=[0.0,0.0,0.0,0.0,0.0,0.0]
+        self.default_initial_joints=rospy.get_param('/renov_up_level/aubo_initial_point')
+
         self.default_start_joints=rospy.get_param('/renov_up_level/aubo_default_point')
         self.default_end_joints=rospy.get_param("/renov_up_level/aubo_default_point")
         # self.default_start_joints2=[0.0,0.7156,2.7524,0.47,-1.487,1.57]
@@ -220,10 +222,16 @@ class Renovation_operation():
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
 
-        "motion of manipulator to start point"
+        "motion of manipulator to painting default start point "
         count=1
+        pubstring0="movej"+self.default_initial_joints+self.default_start_joints
+        print("the first beginning motion pubstring0=%s"%pubstring0)
+        self.manipulator_motion(pubstring0,rate,count)
+        count=count+1
+
+        "motion of manipulator to painting motion start point"
         pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
-        print("the beginning motion pubstring1=%s"%pubstring1)
+        print("the second beginning motion pubstring1=%s"%pubstring1)
         self.manipulator_motion(pubstring1,rate,count)
         count=count+1
 
@@ -246,6 +254,11 @@ class Renovation_operation():
         pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
         print("the ending motion pubstring3=%s"%pubstring3)
         self.manipulator_motion(pubstring3,rate,count)
+
+        "motion of manipulator to the initial points"
+        pubstring4="movej"+self.default_end_joints+self.default_initial_joints
+        print("the ending motion pubstring4=%s"%pubstring4)
+        self.manipulator_motion(pubstring4,rate,count)
 
 
 

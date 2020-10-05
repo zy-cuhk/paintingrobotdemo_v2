@@ -60,7 +60,7 @@ def sample_climbing_joints(renovation_mobilebase_position_onecell):
     for i in range(candidate_manipulatorbase_num):
         candidate_manipulatorbase_position[i][0]=renovation_mobilebase_position_onecell[0]+deltax
         candidate_manipulatorbase_position[i][1]=renovation_mobilebase_position_onecell[1]+deltay
-        candidate_manipulatorbase_position[i][2]=1.38-0.22*i  # the sampled point is: 1.38; 1.28 and 1.18
+        candidate_manipulatorbase_position[i][2]=1.38-0.13*i  # the sampled point is: 1.38; 1.28 and 1.18
         candidate_manipulatorbase_position[i][3]=0
         candidate_manipulatorbase_position[i][4]=0
         candidate_manipulatorbase_position[i][5]=theta_z
@@ -185,7 +185,7 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_number[i]=climbingjoints_coverage_number[i]
 
-    weight=5
+    weight=10
     sampled_coveragepaths_evaluator=np.zeros(len(candidate_manipulatorbase_position))
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_evaluator[i]=sampled_coveragepaths_number[i]/(1+weight*sampled_motiondistance[i])
@@ -326,7 +326,7 @@ if __name__ == "__main__":
 
     "manipulator base and climbing joint distance relationship is shown as follows:"
     manipulatorbase_climbingjoint_defaultdistance=1.38
-    manipulatorbaseposition_now=1.38
+    manipulatorbaseposition_now=manipulatorbase_climbingjoint_defaultdistance
 
     "the planning algorithm framework is shown as follows:"
     renovation_manipulatorbase_positions=multidict()
