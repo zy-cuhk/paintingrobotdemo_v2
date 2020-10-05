@@ -85,6 +85,7 @@ def main():
                 mobile_base_point_count+=1
                 climb_base_count_num=0
                 break
+                
         if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
             plane_num_count+=1 
             mobile_base_point_count=0            
