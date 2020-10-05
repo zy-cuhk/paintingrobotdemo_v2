@@ -427,7 +427,7 @@ def main():
     # print q_dict,num
     # for i in range(len(q_dict)):
     #     print i,q_dict[i]
-    # print ak47.degree_to_rad([-3.3364,12.406,-81.09,-91.207,-86.08,0.164])
+    print ak47.degree_to_rad([16.14,57.76,118.48,148.66,90.5,-100.4])
     # print ak47.GetInverseResult(tt,ak47.degree_to_rad([-3.3364,12.406,-81.09,-91.207,-86.08,0.164]))
 
 

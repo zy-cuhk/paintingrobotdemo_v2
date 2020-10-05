@@ -33,7 +33,7 @@ class RenovationRobot():
         
     def renovationrobot_motion(self,planning_source_dict,rate):
         plane_num_count=1
-        mobile_base_point_count=9
+        mobile_base_point_count=0
         climb_base_count_num=0
         list1=[]
         list2=[]
@@ -46,6 +46,8 @@ class RenovationRobot():
                 "executing climbing motion of rod climbing mechanism when holding operation is over"
                 climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
                 climb_distance=climb_data[0]
+                if climb_distance<-0.17:
+                    climb_distance+=0.05
                 climb_rotation_angle=climb_data[1]
                 print("climb distance is:",climb_distance)
                 print("climb rotation angle is",climb_rotation_angle)
