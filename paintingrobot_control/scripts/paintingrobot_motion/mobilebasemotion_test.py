@@ -95,11 +95,12 @@ class RenovationRobot():
                 plane_num_count+=1 
                 mobile_base_point_count=0
             
-            if plane_num_count>=len(planning_source_dict):
+            # if plane_num_count>=len(planning_source_dict):
+            if plane_num_count>=1:
                 rospy.loginfo("painting operation of whole room is over")
                 break
             rate.sleep()
-            break
+            # break
         print("list is:",list1)
         print("list is:",list2)
 
