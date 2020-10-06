@@ -71,3 +71,5 @@ the problems of our proposed algorithm
 
 problem 1:
 the inverse kinematic results is not right
+
+the rate of aubo_motion.py is changed in the main function, please be awared of it 

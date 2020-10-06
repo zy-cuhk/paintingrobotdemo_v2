@@ -64,6 +64,7 @@ class RenovationRobot():
 
                 time1=time.time()
                 aubo5=Renovation_operation()
+                rate=5
                 aubo5.aubo_motion1(aubo_q_list,rate)
                 # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
