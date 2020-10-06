@@ -5662,3 +5662,22 @@
 10/05/2020 17:05:03,915 [140221945972480] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
 10/05/2020 17:05:03,915 [140221945972480] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
 10/05/2020 17:05:04,416 [140222000678720] [INFO ] - remove client, rshd=0
+10/06/2020 18:07:21,827 [140300127332160] [INFO ] - log4cplus started.
+10/06/2020 18:07:21,828 [140300127332160] [INFO ] - rshd:0---addr:192.168.1.20---port:8899
+10/06/2020 18:07:21,828 [140300127332160] [INFO ] - sdk log: Connect robot server success.
+10/06/2020 18:07:21,833 [140300127332160] [INFO ] - sdk log: set dhparam success. type:0, DhParam:0.408000,0.376000,0.098500,0.121500,0.102500,0.094000
+10/06/2020 18:07:21,833 [140300127332160] [INFO ] - sdk log: login  success.
+10/06/2020 18:07:21,835 [140300127332160] [INFO ] - sdk log: login completed, set joint6 retate 360 falg success. joint6Rot360Enable=0
+10/06/2020 18:07:24,769 [140300062131968] [INFO ] - sdk log: init ik param success.
+10/06/2020 18:07:25,273 [140300127332160] [INFO ] - sdk log: User blocking call motion interface.
+10/06/2020 18:07:25,273 [140300127332160] [INFO ] - sdk log: Sending robotMove request was successful, waiting for server response.
+10/06/2020 18:07:25,277 [140300062131968] [INFO ] - sdk log: Processing the robotMove response from the server..
+10/06/2020 18:07:25,277 [140300127332160] [INFO ] - sdk log: Successfully waited for a robotMove response from the server.
+10/06/2020 18:07:25,303 [140300062131968] [INFO ] - emit event type:39 code:0 str:{"addr":1,"status":1.0}, rshd=0
+10/06/2020 18:07:25,375 [140300062131968] [INFO ] - emit event type:39 code:0 str:{"addr":9,"status":1.0}, rshd=0
+10/06/2020 18:07:28,724 [140300062131968] [INFO ] - sdk log: RobotEvent_atTrackTargetPos processing.
+10/06/2020 18:07:28,724 [140300127332160] [INFO ] - sdk log:Success wait for the signal to arrive target positon.
+10/06/2020 18:07:28,724 [140300127332160] [INFO ] - sdk log: User call motion interface finish.
+10/06/2020 18:07:28,725 [140300072625920] [INFO ] - call event_callback, type:39 code:0 str:{"addr":1,"status":1.0}
+10/06/2020 18:07:28,725 [140300072625920] [INFO ] - call event_callback, type:39 code:0 str:{"addr":9,"status":1.0}
+10/06/2020 18:07:29,225 [140300127332160] [INFO ] - remove client, rshd=0

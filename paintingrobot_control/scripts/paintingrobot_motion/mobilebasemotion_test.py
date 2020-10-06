@@ -69,7 +69,7 @@ class RenovationRobot():
             self.mobilebasepositions_pub.publish(p_list)
             rate.sleep()
     def renovationrobot_motion(self,planning_source_dict,rate):
-        plane_num_count=0
+        plane_num_count=4
         mobile_base_point_count=0
         climb_base_count_num=0
         list1=[]
@@ -95,12 +95,12 @@ class RenovationRobot():
                 plane_num_count+=1 
                 mobile_base_point_count=0
             
-            # if plane_num_count>=len(planning_source_dict):
-            if plane_num_count>=1:
+            if plane_num_count>=len(planning_source_dict):
+            # if plane_num_count>=1:
                 rospy.loginfo("painting operation of whole room is over")
                 break
             rate.sleep()
-            # break
+            break
         print("list is:",list1)
         print("list is:",list2)
 
