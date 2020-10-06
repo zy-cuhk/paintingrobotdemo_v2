@@ -315,9 +315,9 @@ if __name__ == "__main__":
 
     "input: renovation_cells_mobilebase_positions and renovation_cells_waypaths" 
     data = io.loadmat(mat_path)
-    renovation_cells_waypaths=data['renovation_cells_waypaths2']
-    renovation_cells_mobilebase_positions=data['renovation_cells_mobilebase_positions2']
-    renovation_waypaths_orientation=data['renovation_waypaths_orientation2']
+    renovation_cells_waypaths=data['renovation_cells_waypaths1']
+    renovation_cells_mobilebase_positions=data['renovation_cells_mobilebase_positions1']
+    renovation_waypaths_orientation=data['renovation_waypaths_orientation1']
     
     "the matrix of painting endeffector link with respect to manipulator wrist3 link is shown as follows:"
     paintinggun_T=np.array([[1.0,0.0,0.0,-0.535],[0.0,1.0,0.0,0.0],[0,0,1.0000,0.250],[0,0,0,1.0000]]) # 0.25 is changed to be 0.20
