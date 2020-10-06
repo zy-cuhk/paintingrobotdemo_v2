@@ -189,15 +189,15 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
     sampled_coveragepaths_evaluator=np.zeros(len(candidate_manipulatorbase_position))
     for i in range(len(candidate_manipulatorbase_position)):
         sampled_coveragepaths_evaluator[i]=sampled_coveragepaths_number[i]/(1+weight*sampled_motiondistance[i])
-    print("the sampled coverage paths evaluator is: ", sampled_coveragepaths_evaluator)
+    # print("the sampled coverage paths evaluator is: ", sampled_coveragepaths_evaluator)
 
     max_coverage_paths_number=0
     for i in range(len(candidate_manipulatorbase_position)):
         if sampled_coveragepaths_evaluator[i]>=max_coverage_paths_number:
             max_coverage_paths_number=sampled_coveragepaths_evaluator[i]
             max_coverage_index=i
-            print("max coverage paths evaluator is:",max_coverage_paths_number)
-            print("max_coverage_index is:",max_coverage_index)
+            # print("max coverage paths evaluator is:",max_coverage_paths_number)
+            # print("max_coverage_index is:",max_coverage_index)
 
     selected_manipulatorbase_position=candidate_manipulatorbase_position[max_coverage_index]
     selected_cartersian_waypaths=[]
@@ -211,8 +211,8 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
     for i in range(len(candidate_manipulatorbase_position)):
         if i!=max_coverage_index:
             new_candidate_manipulatorbase_position.append(candidate_manipulatorbase_position[i])
-    for i in range(len(new_candidate_manipulatorbase_position)):
-        print("the unselected manipulator position height is:",new_candidate_manipulatorbase_position[i][2])
+    # for i in range(len(new_candidate_manipulatorbase_position)):
+        # print("the unselected manipulator position height is:",new_candidate_manipulatorbase_position[i][2])
 
     "obtain remaining uncovered manipulator painting paths"
     renovation_waypaths_onecell=[]
@@ -334,48 +334,56 @@ if __name__ == "__main__":
     renovation_manipualtorwaypoint_cartesianlist=multidict()
 
     for i in range(len(renovation_cells_waypaths[0])):
-        for j in range(len(renovation_cells_waypaths[0][i][0])):
+        if len(renovation_cells_waypaths[0][i])==1:
+            for j in range(len(renovation_cells_waypaths[0][i][0])):
     # for i in range(1):
         # for j in range(1):
-            renovation_mobilebase_position_onecell=renovation_cells_mobilebase_positions[0][i][j][0:6]
-            renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j]
-            manipulatorbase_num_inonecell=0
-            
-            "step 1: sample candidate climbing joint values and corresponding manipulator base positions"
-            candidate_manipulatorbase_position = sample_climbing_joints(renovation_mobilebase_position_onecell)
-            while(1):
-            # for k in range(3):
-                "step 2: obtain renovation waypaths inside the workspace of candidate manipulator base positions"
-                climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints = obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T)
-                
-                "step 3: select the best climbing joints value"
-                "candidate_manipulatorbase_position and renovation_waypaths_onecell are new obtained"
-                selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(manipulatorbaseposition_now,candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
-                manipulatorbaseheight_now=selected_manipulatorbase_position[2]
 
-                "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
-                print("the selected waypath number is :", len(selected_cartersian_waypaths))
-                scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
-                # print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
+                renovation_mobilebase_position_onecell=renovation_cells_mobilebase_positions[0][i][j][0:6]
+                renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j]
+                manipulatorbase_num_inonecell=0
                 
-                "step 5: using joint space tsp solver to obtain suitable joints value of scheduled waypaths" 
-                scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
-                "step 6: update states for the above variables" 
-                # add the selected manipulator base position and covered painting waypaths into the planning list
-                # print("the selected manipulator base position is:",selected_manipulatorbase_position[0:6])
-                # print("----------------------------------------------------------------------------------")
-                renovation_manipulatorbase_positions[i][j][manipulatorbase_num_inonecell]=selected_manipulatorbase_position[0:6]
-                for coverage_waypoints_num in range(len(scheduled_selectedjoints_dict)):
-                    renovation_manipulatorwaypoint_jointslist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selectedjoints_dict[coverage_waypoints_num][0:6]
-                    renovation_manipualtorwaypoint_cartesianlist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selected_waypoints_list[coverage_waypoints_num][0:3]
-                manipulatorbase_num_inonecell+=1
-                
-                "step 7: exit condition: waypaths are all coverage status, in other words, uncovered painting waypaths number is zero"
-                # print("renovation_waypaths_onecell is: ",renovation_waypaths_onecell)
-                if len(renovation_waypaths_onecell)==0:
-                        break
-                # print("-------------------------------------------------------------------------------------")
+                "step 1: sample candidate climbing joint values and corresponding manipulator base positions"
+                candidate_manipulatorbase_position = sample_climbing_joints(renovation_mobilebase_position_onecell)
+                while(1):
+                # for k in range(3):
+                    "step 2: obtain renovation waypaths inside the workspace of candidate manipulator base positions"
+                    climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints, cartersianwaypaths_outof_candidateclimbingjoints = obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,renovation_waypaths_onecell,paintinggun_T)
+                    
+                    "step 3: select the best climbing joints value"
+                    "candidate_manipulatorbase_position and renovation_waypaths_onecell are new obtained"
+                    selected_manipulatorbase_position, selected_cartersian_waypaths, candidate_manipulatorbase_position, renovation_waypaths_onecell = select_climbingjoints(manipulatorbaseposition_now,candidate_manipulatorbase_position,climbingjoints_coverage_number, cartersianwaypaths_incandidateclimbingjoints,cartersianwaypaths_outof_candidateclimbingjoints)
+                    manipulatorbaseheight_now=selected_manipulatorbase_position[2]
 
+                    "step 4: using cartesian space tsp solver to schedule these suitable waypaths" 
+                    print("the selected waypath number is :", len(selected_cartersian_waypaths))
+                    scheduled_selected_strokes_dict = manipulator_catersian_path_tspsolver(selected_cartersian_waypaths)
+                    # print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
+                    
+                    "step 5: using joint space tsp solver to obtain suitable joints value of scheduled waypaths" 
+                    scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
+                    "step 6: update states for the above variables" 
+                    # add the selected manipulator base position and covered painting waypaths into the planning list
+                    # print("the selected manipulator base position is:",selected_manipulatorbase_position[0:6])
+                    # print("----------------------------------------------------------------------------------")
+                    renovation_manipulatorbase_positions[i][j][manipulatorbase_num_inonecell]=selected_manipulatorbase_position[0:6]
+
+                    for coverage_waypoints_num in range(len(scheduled_selectedjoints_dict)):
+                        renovation_manipulatorwaypoint_jointslist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selectedjoints_dict[coverage_waypoints_num][0:6]
+                        renovation_manipualtorwaypoint_cartesianlist[i][j][manipulatorbase_num_inonecell][coverage_waypoints_num]=scheduled_selected_waypoints_list[coverage_waypoints_num][0:3]
+                    manipulatorbase_num_inonecell+=1
+                    
+                    "step 7: exit condition: waypaths are all coverage status, in other words, uncovered painting waypaths number is zero"
+                    # print("renovation_waypaths_onecell is: ",renovation_waypaths_onecell)
+
+                    if len(renovation_waypaths_onecell)<=5 and len(renovation_waypaths_onecell)>0:
+                        print("----------------------------------------------------")
+                        print("the plane number is: ", i+1)
+                        print("the cell number is: ", j+1)
+                        print("renovation_waypaths_onecell is: ",renovation_waypaths_onecell)
+                        print("----------------------------------------------------")
+                    if len(renovation_waypaths_onecell)<=2:
+                            break
 
 
     # generate planning_source_dict, and the input include: 
@@ -385,33 +393,45 @@ if __name__ == "__main__":
     # renovation_manipulatorwaypoint_jointslist[plane_num][cell_num][manipulatorbase_num][waypaths_num][0:6], format: dict 
 
 
+    print("the number of planes is: ", len(renovation_manipulatorbase_positions))
+    for i in range(len(renovation_cells_mobilebase_positions[0])):
+        print("the plane number is: ",i)
+        # for j in range(len(renovation_manipulatorbase_positions[i])):
+        print("the manipulator base number is: ",len(renovation_manipulatorbase_positions[i]))
+
 
     coverageplanningresults_dict=multidict()
-    for i in range(len(renovation_manipulatorbase_positions)):
-        for j in range(len(renovation_manipulatorbase_positions[i])):
-            mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
-            coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
+    for i in range(len(renovation_cells_mobilebase_positions[0])):
+        if len(renovation_cells_waypaths[0][i])==1:
+            for j in range(len(renovation_cells_mobilebase_positions[0][i])):
+                mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
+                coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
 
-            renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j].tolist()
-            coverageplanningresults_dict["plane_num_"+str(i)]["plane_renovationcells_num_"+str(i)]["renovationcells_num_"+str(j)]=renovation_waypaths_onecell
+                # print("------------------------------------")
+                # print("the plane number is: ",i+1)
+                # print("the cell number is: ",j+1)
+                # print("------------------------------------")
+
+                renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j].tolist()
+                coverageplanningresults_dict["plane_num_"+str(i)]["plane_renovationcells_num_"+str(i)]["renovationcells_num_"+str(j)]=renovation_waypaths_onecell
 
 
-            for k in range(len(renovation_manipulatorbase_positions[i][j])):
-                rodclimbing_robot_targetjoints=renovation_manipulatorbase_positions[i][j][k].tolist()
+                for k in range(len(renovation_manipulatorbase_positions[i][j])):
+                    rodclimbing_robot_targetjoints=renovation_manipulatorbase_positions[i][j][k].tolist()
 
-                coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_manipulatorbase_num_"+str(j)]["manipulatorbase_num_"+str(k)]=rodclimbing_robot_targetjoints
-                "the manipulator base and climbing joint distance relationship is determined as: 0.6"
-                climbingjoints=[rodclimbing_robot_targetjoints[2]-manipulatorbase_climbingjoint_defaultdistance, 0.0]
-                print("climbing joints are:",climbingjoints)
-                
-                coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_climb_num_"+str(j)]["climb_num_"+str(k)]=climbingjoints
-
-                for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
-                    aubo_targetpositions=[renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][0], renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][1], renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][2]]
-                    coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_aubocartesian_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["cartesianposition_num_"+str(m)]=aubo_targetpositions
+                    coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_manipulatorbase_num_"+str(j)]["manipulatorbase_num_"+str(k)]=rodclimbing_robot_targetjoints
+                    "the manipulator base and climbing joint distance relationship is determined as: 0.6"
+                    climbingjoints=[rodclimbing_robot_targetjoints[2]-manipulatorbase_climbingjoint_defaultdistance, 0.0]
+                    # print("climbing joints are:",climbingjoints)
                     
-                    aubo_targetjoints=renovation_manipulatorwaypoint_jointslist[i][j][k][m]
-                    coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_aubojoint_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["aubo_data_num_"+str(m)]=aubo_targetjoints
+                    coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_climb_num_"+str(j)]["climb_num_"+str(k)]=climbingjoints
+
+                    for m in range(len(renovation_manipualtorwaypoint_cartesianlist[i][j][k])):
+                        aubo_targetpositions=[renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][0], renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][1], renovation_manipualtorwaypoint_cartesianlist[i][j][k][m][2]]
+                        coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_aubocartesian_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["cartesianposition_num_"+str(m)]=aubo_targetpositions
+                        
+                        aubo_targetjoints=renovation_manipulatorwaypoint_jointslist[i][j][k][m]
+                        coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_aubojoint_num_"+str(j)]["aubo_planning_voxel_num_"+str(k)]["aubo_data_num_"+str(m)]=aubo_targetjoints
 
     with open(json_path,'w') as f:
         json.dump(coverageplanningresults_dict, f, sort_keys=True, indent=4, separators=(', ', ': '), ensure_ascii=False)

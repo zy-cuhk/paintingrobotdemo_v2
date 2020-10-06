@@ -260,10 +260,17 @@ class RenovationRobot():
 
             "exit condition: all renovation surface is operated"
             if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
-                plane_num_count+=1 
+                if plane_num_count==0:
+                    plane_num_count+=2
+                elif plane_num_count==2: 
+                    plane_num_count+=2
+                elif plane_num_count==4:
+                    plane_num_count+=1
+                elif plane_num_count==5:
+                    plane_num_count+=1
                 mobile_base_point_count=0
 
-            if plane_num_count>=len(planning_source_dict):
+            if plane_num_count>=6:
                 rospy.loginfo("painting operation of whole room is over")
                 break
             # break
