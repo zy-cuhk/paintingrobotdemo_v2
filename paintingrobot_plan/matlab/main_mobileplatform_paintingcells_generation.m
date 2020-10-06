@@ -1,11 +1,11 @@
 clc,clear all,close all;
 tic;
 
-% path5='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
-% path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
+path5='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
 
-path5='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
-path6='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
+% path5='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+% path6='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
 
 data=load(path5,'renovation_effective_waypoints','renovation_effective_waypaths','manipulatorbase_plane_edge_cell','renovation_plane_norm_vector','renovation_plane_edge_cell','painting_path_interval','room_plane_edge_cell');
 renovation_effective_waypoints=data.renovation_effective_waypoints; 
@@ -222,7 +222,6 @@ for i=1:1:size(renovation_cells_waypaths,2)
     end
 end
 
-% save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
 % renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
 
 toc;
@@ -242,7 +241,8 @@ renovation_cells_mobilebase_positions1{4}(2,1:6)=[-2.8464,-0.8329,0,0,0,-1.7768]
 renovation_cells_mobilebase_positions1{5}=renovation_cells_mobilebase_positions{3};
 renovation_cells_mobilebase_positions1{6}=renovation_cells_mobilebase_positions{4};
 
-renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions1,renovation_plane_edge_cell,room_plane_edge_cell);
+save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions1','renovation_waypaths_orientation');
+% renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions1,renovation_plane_edge_cell,room_plane_edge_cell);
 
 
 
