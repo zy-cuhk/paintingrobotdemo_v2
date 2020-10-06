@@ -162,14 +162,15 @@ for i=1:1:size(intersection_line,2)
         
         %% the modification position for determining the mobile base positions
         if i==2 && j==1
-            c2=dmin+(j-0.5)*length_interval+0.15;
+            c2=dmin+0.35;
         end
         if i==2 && j==size(intersection_line{i},1)
-            c2=dmax-0.5*length_interval-0.15;
+            c2=dmax-0.40;
         end
         if i==3 && j==1
-            c2=dmax-0.5*length_interval-0.15;
+            c2=dmax-0.40;
         end
+        
         renovation_horizontalcells_mobilebase_points{i}(j,1)=(c2*b1-c1*b2)/(a1*b2-a2*b1);
         renovation_horizontalcells_mobilebase_points{i}(j,2)=(c1*a2-c2*a1)/(a1*b2-a2*b1);
         renovation_horizontalcells_mobilebase_points{i}(j,3)=0;
@@ -221,47 +222,35 @@ for i=1:1:size(renovation_cells_waypaths,2)
     end
 end
 
-save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
-renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_waypaths_orientation,renovation_plane_edge_cell,room_plane_edge_cell);
+% save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
+% renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_plane_edge_cell,room_plane_edge_cell);
 
 toc;
 
 
-
-
-
 %% the selected renovation cells are shown as follows:
-% renovation_cells_mobilebase_position1{i}(:,1:6)
+% renovation_cells_mobilebase_positions{i}(:,1:6)
 % renovation_cells_waypaths{i}{j}(:,1:6)
 % renovation_waypaths_orientation{i}(1,1:3)
 
-% for i=1:1:size(renovation_cells_mobilebase_positions,2)
-%     num2=1;
-%     for j=1:1:size(renovation_cells_mobilebase_positions{i},1)
-%         if i~=2 || j~=1
-%             if i~=2 || j~=size(renovation_cells_mobilebase_positions{i},1)
-%                 renovation_cells_mobilebase_position1{i}(num2,1:6)=renovation_cells_mobilebase_positions{i}(j,1:6);
-%                 renovation_cells_waypaths1{i}{num2}=renovation_cells_waypaths{i}{j};
-%                 num2=num2+1;
-%             end
-%         end
-%     end
-% end
-% renovation_cells_waypaths2{1}=renovation_cells_waypaths1{1};
-% renovation_cells_waypaths2{2}=renovation_cells_waypaths1{2};
-% for j=1:1:size(renovation_cells_waypaths1{4},2)
-%     renovation_cells_waypaths2{3}{j}=renovation_cells_waypaths1{4}{size(renovation_cells_waypaths1{4},2)-j+1};
-% end
-% renovation_cells_mobilebase_positions2{1}=renovation_cells_mobilebase_position1{1};
-% renovation_cells_mobilebase_positions2{2}=renovation_cells_mobilebase_position1{2};
-% for j=1:1:size(renovation_cells_mobilebase_position1{4},1)
-%     renovation_cells_mobilebase_positions2{3}(j,1:6)=renovation_cells_mobilebase_position1{4}(size(renovation_cells_mobilebase_position1{4},1)-j+1,1:6);
-% end
-% renovation_waypaths_orientation2{1}=renovation_waypaths_orientation{1};
-% renovation_waypaths_orientation2{2}=renovation_waypaths_orientation{2};
-% renovation_waypaths_orientation2{3}=renovation_waypaths_orientation{4};
-% save(path6,'renovation_cells_waypaths2','renovation_cells_mobilebase_positions2','renovation_waypaths_orientation2');
-% renovation_cells_waypath_visualization(renovation_cells_waypaths2,renovation_cells_mobilebase_positions2,renovation_plane_edge_cell,room_plane_edge_cell);
+renovation_cells_mobilebase_positions1{1}=renovation_cells_mobilebase_positions{1};
+renovation_cells_mobilebase_positions1{2}(1,1:6)=[-1.9246,1.7445,0,0,0,1.3538];
+renovation_cells_mobilebase_positions1{2}(2,1:6)=[-1.9246,1.7445,0,0,0,2.9219];
+renovation_cells_mobilebase_positions1{3}=renovation_cells_mobilebase_positions{2};
+renovation_cells_mobilebase_positions1{4}(1,1:6)=[-2.8464,-0.8329,0,0,0,2.9219];
+renovation_cells_mobilebase_positions1{4}(2,1:6)=[-2.8464,-0.8329,0,0,0,-1.7768];
+renovation_cells_mobilebase_positions1{5}=renovation_cells_mobilebase_positions{3};
+renovation_cells_mobilebase_positions1{6}=renovation_cells_mobilebase_positions{4};
+
+renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions1,renovation_plane_edge_cell,room_plane_edge_cell);
+
+
+
+
+
+
+
+
 
 
 
