@@ -1,11 +1,11 @@
 clc,clear all,close all;
 tic;
 
-path5='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
-path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
+% path5='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+% path6='/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
 
-% path5='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
-% path6='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
+path5='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data2.mat';
+path6='/Users/zhouyang/Desktop/github_packages/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/second_scan_data3.mat';
 
 data=load(path5,'renovation_effective_waypoints','renovation_effective_waypaths','manipulatorbase_plane_edge_cell','renovation_plane_norm_vector','renovation_plane_edge_cell','painting_path_interval','room_plane_edge_cell');
 renovation_effective_waypoints=data.renovation_effective_waypoints; 
@@ -109,7 +109,7 @@ for i=1:1:size(intersect_plane_d,2)
             flag1=0;
             flag_1=0;
             if j==1
-                if p1_d1<=intersect_plane_d{i}(1,j)-0.01 && p2_d1<=intersect_plane_d{i}(1,j)-0.01
+                if p1_d1<=intersect_plane_d{i}(1,j)-0.01 && p2_d1<=intersect_plane_d{i}(1,j)-0.01 && p1_d1>=intersect_plane_dmin_max{i}(1,1)+0.05 && p2_d1>=intersect_plane_dmin_max{i}(1,1)+0.05
                     flag1=1;
                     flag_1=1;
                 end
@@ -123,7 +123,7 @@ for i=1:1:size(intersect_plane_d,2)
                 end
             end
             if j==size(intersect_plane_d{i},2)+1
-                if p1_d1>=intersect_plane_d{i}(1,j-1)+0.01 && p2_d1>=intersect_plane_d{i}(1,j-1)+0.01
+                if p1_d1>=intersect_plane_d{i}(1,j-1)+0.01 && p2_d1>=intersect_plane_d{i}(1,j-1)+0.01 && p1_d1<=intersect_plane_dmin_max{i}(1,2)-0.05 && p2_d1<=intersect_plane_dmin_max{i}(1,2)-0.05
                     flag1=1;
                     flag_1=2;
                 end
@@ -221,45 +221,47 @@ for i=1:1:size(renovation_cells_waypaths,2)
     end
 end
 
+save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions','renovation_waypaths_orientation');
+renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions,renovation_waypaths_orientation,renovation_plane_edge_cell,room_plane_edge_cell);
+
+toc;
+
+
+
+
 
 %% the selected renovation cells are shown as follows:
 % renovation_cells_mobilebase_position1{i}(:,1:6)
 % renovation_cells_waypaths{i}{j}(:,1:6)
 % renovation_waypaths_orientation{i}(1,1:3)
 
-for i=1:1:size(renovation_cells_mobilebase_positions,2)
-    num2=1;
-    for j=1:1:size(renovation_cells_mobilebase_positions{i},1)
-        if i~=2 || j~=1
-            if i~=2 || j~=size(renovation_cells_mobilebase_positions{i},1)
-                renovation_cells_mobilebase_position1{i}(num2,1:6)=renovation_cells_mobilebase_positions{i}(j,1:6);
-                renovation_cells_waypaths1{i}{num2}=renovation_cells_waypaths{i}{j};
-                num2=num2+1;
-            end
-        end
-    end
-end
-
-renovation_cells_waypaths2{1}=renovation_cells_waypaths1{1};
-renovation_cells_waypaths2{2}=renovation_cells_waypaths1{2};
-for j=1:1:size(renovation_cells_waypaths1{4},2)
-    renovation_cells_waypaths2{3}{j}=renovation_cells_waypaths1{4}{size(renovation_cells_waypaths1{4},2)-j+1};
-end
-
-renovation_cells_mobilebase_positions2{1}=renovation_cells_mobilebase_position1{1};
-renovation_cells_mobilebase_positions2{2}=renovation_cells_mobilebase_position1{2};
-for j=1:1:size(renovation_cells_mobilebase_position1{4},1)
-    renovation_cells_mobilebase_positions2{3}(j,1:6)=renovation_cells_mobilebase_position1{4}(size(renovation_cells_mobilebase_position1{4},1)-j+1,1:6);
-end
-
-renovation_waypaths_orientation2{1}=renovation_waypaths_orientation{1};
-renovation_waypaths_orientation2{2}=renovation_waypaths_orientation{2};
-renovation_waypaths_orientation2{3}=renovation_waypaths_orientation{4};
-
-save(path6,'renovation_cells_waypaths2','renovation_cells_mobilebase_positions2','renovation_waypaths_orientation2');
-renovation_cells_waypath_visualization(renovation_cells_waypaths2,renovation_cells_mobilebase_positions2,renovation_plane_edge_cell,room_plane_edge_cell);
-
-toc;
+% for i=1:1:size(renovation_cells_mobilebase_positions,2)
+%     num2=1;
+%     for j=1:1:size(renovation_cells_mobilebase_positions{i},1)
+%         if i~=2 || j~=1
+%             if i~=2 || j~=size(renovation_cells_mobilebase_positions{i},1)
+%                 renovation_cells_mobilebase_position1{i}(num2,1:6)=renovation_cells_mobilebase_positions{i}(j,1:6);
+%                 renovation_cells_waypaths1{i}{num2}=renovation_cells_waypaths{i}{j};
+%                 num2=num2+1;
+%             end
+%         end
+%     end
+% end
+% renovation_cells_waypaths2{1}=renovation_cells_waypaths1{1};
+% renovation_cells_waypaths2{2}=renovation_cells_waypaths1{2};
+% for j=1:1:size(renovation_cells_waypaths1{4},2)
+%     renovation_cells_waypaths2{3}{j}=renovation_cells_waypaths1{4}{size(renovation_cells_waypaths1{4},2)-j+1};
+% end
+% renovation_cells_mobilebase_positions2{1}=renovation_cells_mobilebase_position1{1};
+% renovation_cells_mobilebase_positions2{2}=renovation_cells_mobilebase_position1{2};
+% for j=1:1:size(renovation_cells_mobilebase_position1{4},1)
+%     renovation_cells_mobilebase_positions2{3}(j,1:6)=renovation_cells_mobilebase_position1{4}(size(renovation_cells_mobilebase_position1{4},1)-j+1,1:6);
+% end
+% renovation_waypaths_orientation2{1}=renovation_waypaths_orientation{1};
+% renovation_waypaths_orientation2{2}=renovation_waypaths_orientation{2};
+% renovation_waypaths_orientation2{3}=renovation_waypaths_orientation{4};
+% save(path6,'renovation_cells_waypaths2','renovation_cells_mobilebase_positions2','renovation_waypaths_orientation2');
+% renovation_cells_waypath_visualization(renovation_cells_waypaths2,renovation_cells_mobilebase_positions2,renovation_plane_edge_cell,room_plane_edge_cell);
 
 
 
