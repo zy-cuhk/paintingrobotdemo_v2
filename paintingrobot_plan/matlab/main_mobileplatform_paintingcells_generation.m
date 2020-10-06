@@ -241,6 +241,9 @@ renovation_cells_mobilebase_positions1{4}(2,1:6)=[-2.8464,-0.8329,0,0,0,-1.7768]
 renovation_cells_mobilebase_positions1{5}=renovation_cells_mobilebase_positions{3};
 renovation_cells_mobilebase_positions1{6}=renovation_cells_mobilebase_positions{4};
 
+renovation_cells_waypaths{1}=renovation_cells_waypaths
+
+
 save(path6,'renovation_cells_waypaths','renovation_cells_mobilebase_positions1','renovation_waypaths_orientation');
 % renovation_cells_waypath_visualization(renovation_cells_waypaths,renovation_cells_mobilebase_positions1,renovation_plane_edge_cell,room_plane_edge_cell);
 
