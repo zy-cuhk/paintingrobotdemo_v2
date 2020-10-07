@@ -1,28 +1,32 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from matplotlib import pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import numpy as np
-import scipy.io
-from collections import defaultdict
-import math
+from math import *
 
-class multidict(dict):
-    def __getitem__(self,item):
-        try: 
-            return dict.__getitem__(self,item)
-        except KeyError: 
-            value = self[item]=type(self)()
-            return value
+# from matplotlib import pyplot as plt
+# from mpl_toolkits.mplot3d import Axes3D
+# import numpy as np
+# import scipy.io
+# from collections import defaultdict
+# import math
 
-dict1=multidict()
-dict1[0][0][0]=0.01
-dict1[0][1]=2
-print("dict1 is: ",dict1)
+# class multidict(dict):
+#     def __getitem__(self,item):
+#         try: 
+#             return dict.__getitem__(self,item)
+#         except KeyError: 
+#             value = self[item]=type(self)()
+#             return value
 
-aubo_joints=np.array([0.6771608115099763, -1.9177900706742346, 0.7637025773712462, 2.681492648045481, 0.8936355152849202, 1.5707963267948966])*180/math.pi
-print("aubo joints are: ",aubo_joints)
+# dict1=multidict()
+# dict1[0][0][0]=0.01
+# dict1[0][1]=2
+# print("dict1 is: ",dict1)
 
+# aubo_joints=np.array([0.6771608115099763, -1.9177900706742346, 0.7637025773712462, 2.681492648045481, 0.8936355152849202, 1.5707963267948966])*180/math.pi
+# print("aubo joints are: ",aubo_joints)
+
+
+print("sin(pi/2) is:",sin(pi/2))
 # "aubo_data_num_16": [
 #     0.6771608115099763, 
 #     -2.158228152120758, 

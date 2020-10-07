@@ -412,8 +412,30 @@ if __name__ == "__main__":
                 coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
 
                 "some adjustments of mobile platform position"
-                print("mobileplatform_targetjoints is:",mobileplatform_targetjoints)
 
+                if i==2 and j==0:
+                    print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+                    offset_length1=0.04
+                    p1=mobileplatform_targetjoints
+                    theta1=p1(6)
+                    mobileplatform_targetjoints=[p1(1)+offset_length1*cos(theta1+pi/2),p1(2)+offset_length1*sin(theta1+pi/2),p1(3),p1(4),p1(5),p1(6)]
+                    print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
+                if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
+                    print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+                    offset_length2=-0.04
+                    p3=mobileplatform_targetjoints
+                    theta2=p3(6)
+                    mobileplatform_targetjoints=[p3(1)+offset_length2*cos(theta2+pi/2),p3(2)+offset_length2*sin(theta2+pi/2),p3(3),p3(4),p3(5),p3(6)]
+                    print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
+                if i==4 and j==0:
+                    print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+                    offset_length3=0.04
+                    p5=mobileplatform_targetjoints
+                    theta3=p5(6)
+                    mobileplatform_targetjoints=[p5(1)+offset_length3*cos(theta3+pi/2),p5(2)+offset_length3*sin(theta3+pi/2),p5(3),p5(4),p5(5),p5(6)]
+                    print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
 
 
 
