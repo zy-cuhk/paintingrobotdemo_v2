@@ -32,7 +32,7 @@ class RenovationRobot():
         return planning_source_dict
         
     def renovationrobot_motion(self,planning_source_dict,rate):
-        plane_num_count=0
+        plane_num_count=4
         mobile_base_point_count=0
         climb_base_count_num=0
         list1=[]
@@ -64,7 +64,7 @@ class RenovationRobot():
 
                 time1=time.time()
                 aubo5=Renovation_operation()
-                rate=5
+                rate=rospy.Rate(5)
                 aubo5.aubo_motion1(aubo_q_list,rate)
                 # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
