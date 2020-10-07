@@ -195,27 +195,27 @@ class Renovation_operation():
                 break
             rate.sleep()      
 
-    def aubo_motion(self,aubo_q_list,rate):
-        aubo_joints=[]
-        for i in range(len(aubo_q_list)):
-            aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
+    # def aubo_motion(self,aubo_q_list,rate):
+    #     aubo_joints=[]
+    #     for i in range(len(aubo_q_list)):
+    #         aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
 
-        pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
-        pubstring2="movet"+self.group_joints_to_string(aubo_joints[1:len(aubo_joints)])
-        pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
+    #     pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
+    #     pubstring2="movet"+self.group_joints_to_string(aubo_joints[1:len(aubo_joints)])
+    #     pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
 
-        print("pubstring1=%s"%pubstring1)
-        print("pubstring2=%s"%pubstring2)
-        print("pubstring3=%s"%pubstring3)
+    #     print("pubstring1=%s"%pubstring1)
+    #     print("pubstring2=%s"%pubstring2)
+    #     print("pubstring3=%s"%pubstring3)
 
-        count=1
-        self.manipulator_motion(pubstring1,rate,count)
-       # self.painting_gun_open_control()
-        count=count+1
-        self.manipulator_motion(pubstring2,rate,count)
-        # self.painting_gun_close_control()
-        count=count+1
-        self.manipulator_motion(pubstring3,rate,count)
+    #     count=1
+    #     self.manipulator_motion(pubstring1,rate,count)
+    #    # self.painting_gun_open_control()
+    #     count=count+1
+    #     self.manipulator_motion(pubstring2,rate,count)
+    #     # self.painting_gun_close_control()
+    #     count=count+1
+    #     self.manipulator_motion(pubstring3,rate,count)
 
     def aubo_motion1(self, aubo_q_list, climb_base_count_num, rate):
         aubo_joints=[]

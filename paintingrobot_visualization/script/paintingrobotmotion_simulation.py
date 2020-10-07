@@ -54,8 +54,8 @@ def main():
     coverage_json_path=rospy.get_param("coverage_json_path")
     with open(coverage_json_path,'r') as f:
         planning_source_dict=json.load(f)
-    plane_num_count=2
-    mobile_base_point_count=9
+    plane_num_count=4
+    mobile_base_point_count=0
     climb_base_count_num=0
     offset_distance=0.06
     while not rospy.is_shutdown():

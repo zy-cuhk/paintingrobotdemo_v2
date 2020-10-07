@@ -142,8 +142,8 @@ def obtain_waypaths_insideclimbingworkspace1(plane_num, cell_num, candidate_mani
                 flag_point=[0,0]
                 for m in range(2):
                     if plane_num==2 and cell_num==9 and len(candidate_manipulatorbase_position)==2 and renovation_waypaths_onecell[k][2]<=1.4 and renovation_waypaths_onecell[k][2]>=1.3: 
-                        renovation_waypaths_onecell[k][2]-=0.01
-                        renovation_waypaths_onecell[k][5]-=0.01
+                        renovation_waypaths_onecell[k][2]-=0.00
+                        renovation_waypaths_onecell[k][5]-=0.00
 
                     xyz0=renovation_waypaths_onecell[k][3*m:3*m+3]-candidate_manipulatorbase_position[candidate_num][0:3]
                     manipulator_base_orientation=candidate_manipulatorbase_position[candidate_num][3:6]
@@ -166,9 +166,9 @@ def obtain_waypaths_insideclimbingworkspace1(plane_num, cell_num, candidate_mani
                         flag_point[m] = 0
 
                     "the adjustment just for plane_num=2, cell_num=9"
-                    if candidate_num==0 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]<=1.4:
+                    if candidate_num==0 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]<=1.3:
                         flag_point[m] = 0         
-                    if candidate_num==1 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]>1.4:
+                    if candidate_num==1 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]>1.3:
                         flag_point[m] = 0
 
 
@@ -238,7 +238,7 @@ def select_climbingjoints(manipulatorbaseheight_now, candidate_manipulatorbase_p
 
     return selected_manipulatorbase_position, selected_cartersian_waypaths, new_candidate_manipulatorbase_position,renovation_waypaths_onecell
 
-def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T):
+def manipulator_jointspace_tspsolver(plane_num, cell_num, manipulator_jointspace_tspsolver,selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T):
     "step 1: obtain scheduled waypoints list based on the selected strokes"
     scheduled_selected_waypoints_list=[]
     manipulator_strokes_number=0
@@ -251,8 +251,11 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
     "step 2: obtain the joint space solutions for each waypoint"
     waypoints_candidate_joints_dict=defaultdict(defaultdict)
     scheduled_selectedjoints_dict=defaultdict(defaultdict)
-    aubo_q_ref=np.array([0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57])
-    
+    if manipulator_jointspace_tspsolver==0:
+        aubo_q_ref=np.array([0.0,-0.24435,2.7524,-0.3,-1.4835,1.57])
+    else:
+        aubo_q_ref=np.array([0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57])
+
     for i in range(len(scheduled_selected_waypoints_list)):
     # for i in range(1):
         onewaypoint_candidate_joints_dict=defaultdict(defaultdict)
@@ -281,6 +284,12 @@ def manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled
                 onewaypoint_candidate_joints_dict[num]=q_dict2[num2]
                 waypoints_candidate_joints_dict[i][num]=q_dict2[num2]
                 num+=1    
+
+        if plane_num==2 and cell_num==9 and manipulator_jointspace_tspsolver==0 and i==0:
+            print("---------------------------------------------------------------------")
+            print("scheduled_selected_waypoints_list is: ", scheduled_selected_waypoints_list)
+            print("onewaypoint_candidate_joints_dict is: ",onewaypoint_candidate_joints_dict)
+            print("---------------------------------------------------------------------")
 
         flag, selected_qlist= chooseIKonRefJoint(onewaypoint_candidate_joints_dict, aubo_q_ref)
         scheduled_selectedjoints_dict[i]=selected_qlist
@@ -376,7 +385,10 @@ if __name__ == "__main__":
                     # print("the scheduled_selected_strokes_dict is:",scheduled_selected_strokes_dict)
                     
                     "step 5: using joint space tsp solver to obtain suitable joints value of scheduled waypaths" 
-                    scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
+                    scheduled_selectedjoints_dict,scheduled_selected_waypoints_list=manipulator_jointspace_tspsolver(i,j,manipulatorbase_num_inonecell, selected_manipulatorbase_position,scheduled_selected_strokes_dict,paintinggun_T)
+                    
+                    if i==2 and j==9 and manipulatorbase_num_inonecell==0:
+                        print("scheduled_selectedjoints_dict is: ",scheduled_selectedjoints_dict)
                     "step 6: update states for the above variables" 
                     # add the selected manipulator base position and covered painting waypaths into the planning list
                     # print("the selected manipulator base position is:",selected_manipulatorbase_position[0:6])
@@ -430,13 +442,13 @@ if __name__ == "__main__":
                     mobileplatform_targetjoints=[p1[0]+offset_length1*cos(theta1+pi/2),p1[1]+offset_length1*sin(theta1+pi/2),p1[2],p1[3],p1[4],p1[5]]
                     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
 
-                if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
-                    print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
-                    offset_length2=-0.04
-                    p3=mobileplatform_targetjoints
-                    theta2=p3[5]
-                    mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
-                    print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+                # if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
+                #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+                #     offset_length2=-0.04
+                #     p3=mobileplatform_targetjoints
+                #     theta2=p3[5]
+                #     mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
+                #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
 
                 if i==4 and j==0:
                     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
