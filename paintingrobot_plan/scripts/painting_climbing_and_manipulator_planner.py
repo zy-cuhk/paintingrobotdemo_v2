@@ -129,6 +129,10 @@ def obtain_waypaths_insideclimbingworkspace1(candidate_manipulatorbase_position,
         uncoverage_waypaths_num=0
         for k in range(len(renovation_waypaths_onecell)):
             "obtain cartesian waypaths inside manipulator workspace" 
+            # print("---------------------------")
+            # print("renovation_waypaths_onecell[k][0:3] is: ",renovation_waypaths_onecell[k][0:3])
+            # print("candidate_manipulatorbase_position[candidate_num][0:3] is: ",candidate_manipulatorbase_position[candidate_num][0:3])
+            # print("----------------------------")
             delat_vector1=renovation_waypaths_onecell[k][0:3]-candidate_manipulatorbase_position[candidate_num][0:3]
             distance1=sqrt(delat_vector1[0]**2+delat_vector1[1]**2+delat_vector1[2]**2)
             delat_vector2=renovation_waypaths_onecell[k][3:6]-candidate_manipulatorbase_position[candidate_num][0:3]
@@ -383,7 +387,7 @@ if __name__ == "__main__":
                         print("renovation_waypaths_onecell is: ",renovation_waypaths_onecell)
                         print("----------------------------------------------------")
                     if len(renovation_waypaths_onecell)<=2:
-                            break
+                        break
 
 
     # generate planning_source_dict, and the input include: 
@@ -407,10 +411,12 @@ if __name__ == "__main__":
                 mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
                 coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
 
-                # print("------------------------------------")
-                # print("the plane number is: ",i+1)
-                # print("the cell number is: ",j+1)
-                # print("------------------------------------")
+                "some adjustments of mobile platform position"
+                print("mobileplatform_targetjoints is:",mobileplatform_targetjoints)
+
+
+
+
 
                 renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j].tolist()
                 coverageplanningresults_dict["plane_num_"+str(i)]["plane_renovationcells_num_"+str(i)]["renovationcells_num_"+str(j)]=renovation_waypaths_onecell

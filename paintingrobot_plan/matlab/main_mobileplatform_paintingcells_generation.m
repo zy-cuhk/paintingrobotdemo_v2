@@ -250,7 +250,7 @@ renovation_cells_waypaths1{5}=renovation_cells_waypaths{3};
 %% the modification of the last plane's traversing sequence
 for i=1:1:size(renovation_cells_mobilebase_positions{4},1)
     renovation_cells_mobilebase_positions1{6}(i,:)=renovation_cells_mobilebase_positions{4}(size(renovation_cells_mobilebase_positions{4},1)-i+1,:);
-    renovation_cells_waypaths1{6}{j}=renovation_cells_waypaths{4}{size(renovation_cells_mobilebase_positions{4},1)-j+1};
+    renovation_cells_waypaths1{6}{i}=renovation_cells_waypaths{4}{size(renovation_cells_mobilebase_positions{4},1)-i+1};
 end
 
 
