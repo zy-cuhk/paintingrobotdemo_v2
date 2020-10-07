@@ -3,7 +3,7 @@
   
     <!-- aubo parameters -->
     <param name="aubo_ip" value='192.168.1.20'/>
-    <param name="aubo_initial_point" value='(0.2816961412718848, 1.0081021759519246, 2.0678660977628818, 2.59460646601477, 1.579522973054868, -1.7523105690023069)'/> 
+    <param name="aubo_initial_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,1.57)'/> 
     <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)' /> 
 
 

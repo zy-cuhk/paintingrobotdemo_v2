@@ -39,7 +39,7 @@ class RenovationRobot():
         return planning_source_dict
         
     def renovationrobot_motion(self,planning_source_dict,rate):
-        plane_num_count=0
+        plane_num_count=2
         mobile_base_point_count=0
         climb_base_count_num=0
         list1=[]
@@ -76,6 +76,8 @@ class RenovationRobot():
                 "executing climbing motion of rod climbing mechanism when holding operation is over"
                 climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
                 climb_distance=climb_data[0]
+                if climb_distance<-0.10:
+                    climb_distance+=0.04
                 climb_rotation_angle=climb_data[1]
                 print("climb distance is:",climb_distance)
                 print("climb rotation angle is",climb_rotation_angle)
@@ -133,13 +135,20 @@ class RenovationRobot():
 
             "exit condition: all renovation surface is operated"
             if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
-                plane_num_count+=1 
+                if plane_num_count==0:
+                    plane_num_count+=2
+                elif plane_num_count==2: 
+                    plane_num_count+=2
+                elif plane_num_count==4:
+                    plane_num_count+=1
+                elif plane_num_count==5:
+                    plane_num_count+=1
                 mobile_base_point_count=0
 
-            if plane_num_count>=len(planning_source_dict):
+            if plane_num_count>=6:
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            # break
+            break
             rate.sleep()
 
         print("list is:",list1)
@@ -148,7 +157,7 @@ class RenovationRobot():
 
     def renovationrobot_motion_and_visualization(self,planning_source_dict,rate):
 
-        plane_num_count=0
+        plane_num_count=4
         mobile_base_point_count=0
         climb_base_count_num=0
 
@@ -161,8 +170,8 @@ class RenovationRobot():
             list1.append(mobiledata)    
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -213,8 +222,8 @@ class RenovationRobot():
                 print("climb distance is:",climb_distance)
                 print("climb rotation angle is",climb_rotation_angle)
                 time1=time.time()
-                # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
+                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
                 time2=time.time()
                 delta_time3=time2-time1
                 self.time3_pub.publish(delta_time3)
@@ -225,8 +234,8 @@ class RenovationRobot():
 
                 time1=time.time()
                 aubo5=Renovation_operation()
-                # aubo5.aubo_motion1(aubo_q_list,rate)
-                aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                aubo5.aubo_motion1(aubo_q_list,rate)
+                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
                 time2=time.time()
                 delta_time4=time2-time1
                 self.time4_pub.publish(delta_time4)
@@ -244,8 +253,8 @@ class RenovationRobot():
 
             "executing climgbing mechanism homing operation when manipulator operation on one mobile abse is over"
             time1=time.time()
-            # rodclimb_mechanism_motion(0.0,0.0,rate)
-            rodclimb_mechanism_motion_simulation(0.0,0.0,rate)
+            rodclimb_mechanism_motion(0.0,0.0,rate)
+            # rodclimb_mechanism_motion_simulation(0.0,0.0,rate)
             time2=time.time()
             delta_time3=time2-time1
             self.time3_pub.publish(delta_time3)
@@ -273,7 +282,7 @@ class RenovationRobot():
             if plane_num_count>=6:
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            # break
+            break
             rate.sleep()
 
         print("list is:",list1)
