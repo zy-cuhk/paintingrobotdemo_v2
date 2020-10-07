@@ -250,6 +250,11 @@ class Renovation_operation():
                 self.manipulator_motion(pubstring,rate,count)
                 count=count+1
 
+        if climb_base_count_num==0:
+            pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
+            print("the ending motion pubstring3=%s"%pubstring3)
+            self.manipulator_motion(pubstring3,rate,count)        
+
         if climb_base_count_num==1:
             pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_initial_joints
             print("the ending motion pubstring3=%s"%pubstring3)

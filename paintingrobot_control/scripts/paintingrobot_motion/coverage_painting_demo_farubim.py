@@ -171,7 +171,7 @@ class RenovationRobot():
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
             # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
-            # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
             self.time1_pub.publish(delta_time1)
@@ -186,75 +186,75 @@ class RenovationRobot():
             # time2=time.time()
             # delta_time2=time2-time1
             # self.time2_pub.publish(delta_time2)
+            if plane_num_count!=1 and plane_num_count!=3:
+                while not rospy.is_shutdown():
+                    rospy.loginfo("execute the %sth plane"%str(plane_num_count+1))
+                    rospy.loginfo("execute the %sth mobile base point"%str(mobile_base_point_count+1))
+                    rospy.loginfo("execute the %sth climb base point"%str(climb_base_count_num+1))
 
-            while not rospy.is_shutdown():
-                rospy.loginfo("execute the %sth plane"%str(plane_num_count+1))
-                rospy.loginfo("execute the %sth mobile base point"%str(mobile_base_point_count+1))
-                rospy.loginfo("execute the %sth climb base point"%str(climb_base_count_num+1))
-
-                "visualize online aubo robot arm paths"
-                visualization_num=1
-                aubo_p_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+str(climb_base_count_num)]
-                manipulatorendeffector_targetpose_onecell=np.zeros((len(aubo_p_list),3))
-                for i in range(len(aubo_p_list)):
-                    manipulatorendeffector_targetpose_onecell[i][0] = aubo_p_list["cartesianposition_num_"+str(i)][0]
-                    manipulatorendeffector_targetpose_onecell[i][1] = aubo_p_list["cartesianposition_num_"+str(i)][1]
-                    manipulatorendeffector_targetpose_onecell[i][2] = aubo_p_list["cartesianposition_num_"+str(i)][2]
-                visualization_num, manipulator_path=path_visualization(visualization_num,manipulatorendeffector_targetpose_onecell)
-                visualization_num=visualization_num+1
-                self.pub_state.publish(manipulator_path)
-                "visualize manipulator base coordinate frame"
-                rodclimbing_robot_targetjoints=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_manipulatorbase_num_"+str(mobile_base_point_count)]["manipulatorbase_num_"+str(climb_base_count_num)]
-                visualization_num, point, x_axis, y_axis, z_axis= coordinate_frame_visualization(visualization_num, rodclimbing_robot_targetjoints)
-                visualization_num=visualization_num+1
-                self.pub_state.publish(point)
-                self.pub_state.publish(x_axis)
-                self.pub_state.publish(y_axis)
-                self.pub_state.publish(z_axis)
+                    "visualize online aubo robot arm paths"
+                    visualization_num=1
+                    aubo_p_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+str(climb_base_count_num)]
+                    manipulatorendeffector_targetpose_onecell=np.zeros((len(aubo_p_list),3))
+                    for i in range(len(aubo_p_list)):
+                        manipulatorendeffector_targetpose_onecell[i][0] = aubo_p_list["cartesianposition_num_"+str(i)][0]
+                        manipulatorendeffector_targetpose_onecell[i][1] = aubo_p_list["cartesianposition_num_"+str(i)][1]
+                        manipulatorendeffector_targetpose_onecell[i][2] = aubo_p_list["cartesianposition_num_"+str(i)][2]
+                    visualization_num, manipulator_path=path_visualization(visualization_num,manipulatorendeffector_targetpose_onecell)
+                    visualization_num=visualization_num+1
+                    self.pub_state.publish(manipulator_path)
+                    "visualize manipulator base coordinate frame"
+                    rodclimbing_robot_targetjoints=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_manipulatorbase_num_"+str(mobile_base_point_count)]["manipulatorbase_num_"+str(climb_base_count_num)]
+                    visualization_num, point, x_axis, y_axis, z_axis= coordinate_frame_visualization(visualization_num, rodclimbing_robot_targetjoints)
+                    visualization_num=visualization_num+1
+                    self.pub_state.publish(point)
+                    self.pub_state.publish(x_axis)
+                    self.pub_state.publish(y_axis)
+                    self.pub_state.publish(z_axis)
 
 
-                "executing climbing motion of rod climbing mechanism when holding operation is over"
-                climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
-                climb_distance=climb_data[0]
-                if climb_distance<-0.10:
-                    climb_distance+=0.08
-                climb_rotation_angle=climb_data[1]
-                print("climb distance is:",climb_distance)
-                print("climb rotation angle is",climb_rotation_angle)
-                time1=time.time()
-                rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
-                # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
-                time2=time.time()
-                delta_time3=time2-time1
-                self.time3_pub.publish(delta_time3)
+                    "executing climbing motion of rod climbing mechanism when holding operation is over"
+                    climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
+                    climb_distance=climb_data[0]
+                    if climb_distance<-0.10:
+                        climb_distance+=0.08
+                    climb_rotation_angle=climb_data[1]
+                    print("climb distance is:",climb_distance)
+                    print("climb rotation angle is",climb_rotation_angle)
+                    time1=time.time()
+                    # rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
+                    rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
+                    time2=time.time()
+                    delta_time3=time2-time1
+                    self.time3_pub.publish(delta_time3)
 
-                "exectuing painting operation of manipulator when climbing operation is over"
-                aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
-                print("the number of aubo_q is:",len(aubo_q_list))
+                    "exectuing painting operation of manipulator when climbing operation is over"
+                    aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
+                    print("the number of aubo_q is:",len(aubo_q_list))
 
-                time1=time.time()
-                aubo5=Renovation_operation()
-                aubo5.aubo_motion1(aubo_q_list,climb_base_count_num,rate)
-                # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
-                time2=time.time()
-                delta_time4=time2-time1
-                self.time4_pub.publish(delta_time4)
+                    time1=time.time()
+                    aubo5=Renovation_operation()
+                    # aubo5.aubo_motion1(aubo_q_list,climb_base_count_num,rate)
+                    aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                    time2=time.time()
+                    delta_time4=time2-time1
+                    self.time4_pub.publish(delta_time4)
 
-                "termination condition: all climbing base positions are conversed"                
-                climb_base_count_num+=1
-                print("climb_base_count_num is: ",climb_base_count_num)
-                print("the total climbing base number is: ", len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]))
-                print("-------------------------------------------------")
-                if climb_base_count_num>=len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
-                    mobile_base_point_count+=1
-                    climb_base_count_num=0
-                    os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
-                    break
-                break
+                    "termination condition: all climbing base positions are conversed"                
+                    climb_base_count_num+=1
+                    print("climb_base_count_num is: ",climb_base_count_num)
+                    print("the total climbing base number is: ", len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]))
+                    print("-------------------------------------------------")
+                    if climb_base_count_num>=len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]):
+                        mobile_base_point_count+=1
+                        climb_base_count_num=0
+                        os.system('rosparam set /renov_up_level/one_mobilebase_operation_over_flag 1')
+                        break
+                    # break
             "executing climgbing mechanism homing operation when manipulator operation on one mobile abse is over"
             time1=time.time()
-            rodclimb_mechanism_motion(0.0,0.0,rate)
-            # rodclimb_mechanism_motion_simulation(0.0,0.0,rate)
+            # rodclimb_mechanism_motion(0.0,0.0,rate)
+            rodclimb_mechanism_motion_simulation(0.0,0.0,rate)
             time2=time.time()
             delta_time3=time2-time1
             self.time3_pub.publish(delta_time3)
@@ -269,20 +269,21 @@ class RenovationRobot():
 
             "exit condition: all renovation surface is operated"
             if mobile_base_point_count >= len(planning_source_dict["plane_num_"+str(plane_num_count)]["moible_way_num_"+str(plane_num_count)]):
-                if plane_num_count==0:
-                    plane_num_count+=2
-                elif plane_num_count==2: 
-                    plane_num_count+=2
-                elif plane_num_count==4:
-                    plane_num_count+=1
-                elif plane_num_count==5:
-                    plane_num_count+=1
+                # if plane_num_count==0:
+                #     plane_num_count+=2
+                # elif plane_num_count==2: 
+                #     plane_num_count+=1
+                # elif plane_num_count==4:
+                #     plane_num_count+=1
+                # elif plane_num_count==5:
+                #     plane_num_count+=1
                 mobile_base_point_count=0
+                plane_num_count+=1
 
             if plane_num_count>=6:
                 rospy.loginfo("painting operation of whole room is over")
                 break
-            break
+            # break
             rate.sleep()
 
         print("list is:",list1)

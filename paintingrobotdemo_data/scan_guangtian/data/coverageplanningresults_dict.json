@@ -9125,6 +9125,26 @@
             ]
         }
     }, 
+    "plane_num_1": {
+        "moible_way_num_1": {
+            "mobile_data_num_0": [
+                -1.9246, 
+                1.7445, 
+                0.0, 
+                0.0, 
+                0.0, 
+                1.3538
+            ], 
+            "mobile_data_num_1": [
+                -1.9246, 
+                1.7445, 
+                0.0, 
+                0.0, 
+                0.0, 
+                2.9219
+            ]
+        }
+    }, 
     "plane_num_2": {
         "current_mobile_way_aubocartesian_num_0": {
             "aubo_planning_voxel_num_0": {
@@ -17696,6 +17716,26 @@
                     -2.069502717910006, 
                     2.375
                 ]
+            ]
+        }
+    }, 
+    "plane_num_3": {
+        "moible_way_num_3": {
+            "mobile_data_num_0": [
+                -2.8464, 
+                -0.8329, 
+                0.0, 
+                0.0, 
+                0.0, 
+                2.9219
+            ], 
+            "mobile_data_num_1": [
+                -2.8464, 
+                -0.8329, 
+                0.0, 
+                0.0, 
+                0.0, 
+                -1.7768
             ]
         }
     }, 
