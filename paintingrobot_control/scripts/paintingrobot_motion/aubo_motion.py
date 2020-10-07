@@ -217,17 +217,17 @@ class Renovation_operation():
         count=count+1
         self.manipulator_motion(pubstring3,rate,count)
 
-    def aubo_motion1(self, aubo_q_list, rate):
+    def aubo_motion1(self, aubo_q_list, climb_base_count_num, rate):
         aubo_joints=[]
         for i in range(len(aubo_q_list)):
             aubo_joints.append(aubo_q_list["aubo_data_num_"+str(i)])
 
         count=1
-        # "motion of manipulator to painting default start point "
-        # pubstring0="movej"+self.default_initial_joints+self.default_start_joints
-        # print("the first beginning motion pubstring0=%s"%pubstring0)
-        # self.manipulator_motion(pubstring0,rate,count)
-        # count=count+1
+        if climb_base_count_num==1:
+            pubstring0="movej"+self.default_start_joints+self.default_initial_joints
+            print("the first beginning motion pubstring0=%s"%pubstring0)
+            self.manipulator_motion(pubstring0,rate,count)
+            count=count+1
 
         "motion of manipulator to painting motion start point"
         pubstring1="movej"+self.default_start_joints+self.group_joints_to_string(aubo_joints[0:1])
@@ -250,15 +250,15 @@ class Renovation_operation():
                 self.manipulator_motion(pubstring,rate,count)
                 count=count+1
 
-        "motion of manipulator to end points"
-        pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_end_joints
-        print("the ending motion pubstring3=%s"%pubstring3)
-        self.manipulator_motion(pubstring3,rate,count)
+        if climb_base_count_num==1:
+            pubstring3="movej"+self.group_joints_to_string(aubo_joints[len(aubo_joints)-1:len(aubo_joints)])+self.default_initial_joints
+            print("the ending motion pubstring3=%s"%pubstring3)
+            self.manipulator_motion(pubstring3,rate,count)
 
-        # "motion of manipulator to the initial points"
-        # pubstring4="movej"+self.default_end_joints+self.default_initial_joints
-        # print("the ending motion pubstring4=%s"%pubstring4)
-        # self.manipulator_motion(pubstring4,rate,count)
+        if climb_base_count_num==1:
+            pubstring4="movej"+self.default_initial_joints+self.default_end_joints
+            print("the ending motion pubstring4=%s"%pubstring4)
+            self.manipulator_motion(pubstring4,rate,count)
 
 
 
