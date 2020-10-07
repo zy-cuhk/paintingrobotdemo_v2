@@ -98,6 +98,9 @@ def main():
                 plane_num_count+=1
             mobile_base_point_count=0            
 
+            plane_num_count=2
+            mobile_base_point_count=9
+
         if plane_num_count>=6:
             plane_num_count=0
             mobile_base_point_count=0
