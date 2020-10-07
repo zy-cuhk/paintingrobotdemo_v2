@@ -141,6 +141,10 @@ def obtain_waypaths_insideclimbingworkspace1(plane_num, cell_num, candidate_mani
                 "remove waypaths without satisfied joint space solutions"
                 flag_point=[0,0]
                 for m in range(2):
+                    if plane_num==2 and cell_num==9 and len(candidate_manipulatorbase_position)==2 and renovation_waypaths_onecell[k][2]<=1.4 and renovation_waypaths_onecell[k][2]>=1.3: 
+                        renovation_waypaths_onecell[k][2]-=0.01
+                        renovation_waypaths_onecell[k][5]-=0.01
+
                     xyz0=renovation_waypaths_onecell[k][3*m:3*m+3]-candidate_manipulatorbase_position[candidate_num][0:3]
                     manipulator_base_orientation=candidate_manipulatorbase_position[candidate_num][3:6]
                     rot=mat_computation.rpy2r(manipulator_base_orientation).T
@@ -161,9 +165,13 @@ def obtain_waypaths_insideclimbingworkspace1(plane_num, cell_num, candidate_mani
                     if candidate_num==0 and renovation_waypaths_onecell[k][2]<=1.3 and len(candidate_manipulatorbase_position)==2: 
                         flag_point[m] = 0
 
-                    # if candidate_num==0 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]<=1.4:
-                    #     flag_point[m] = 0
-                        
+                    "the adjustment just for plane_num=2, cell_num=9"
+                    if candidate_num==0 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]<=1.4:
+                        flag_point[m] = 0         
+                    if candidate_num==1 and len(candidate_manipulatorbase_position)==2 and plane_num==2 and cell_num==9 and renovation_waypaths_onecell[k][2]>1.4:
+                        flag_point[m] = 0
+
+
                 if flag_point[0]==1 and flag_point[1]==1:
                     cartersianwaypaths_incandidateclimbingjoints[candidate_num][coverage_waypaths_num]=renovation_waypaths_onecell[k][0:6]  
                     coverage_waypaths_num+=1
