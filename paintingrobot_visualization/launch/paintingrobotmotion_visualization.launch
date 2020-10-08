@@ -1,10 +1,9 @@
 <launch>
-  <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json" />
+  <!-- <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json" /> -->
+  <!-- <node name="paintingrobotmotion_visualization" pkg="paintingrobot_visualization" type="paintingrobotmotion_visualization.py" output="screen" /> -->
 
   <param name="xyz_flie_path" value= "/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/second_scan_2/second_scan_rviz02.xyz" />
-
-  <node name="paintingrobotmotion_visualization" pkg="paintingrobot_visualization" type="paintingrobotmotion_visualization.py" output="screen" />
-
+  
   <node name="paintingrobotpathposition_visualization" pkg="paintingrobot_visualization" type="paintingrobot_offlinepathposition_visualization.py" output="screen" />
 
   <node name="paintingrobotscene_visualization" pkg="paintingrobot_visualization" type="paintingrobotscene_visualization" respawn="false" output="screen" />

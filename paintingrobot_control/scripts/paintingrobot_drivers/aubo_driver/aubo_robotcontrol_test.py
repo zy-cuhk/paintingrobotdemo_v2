@@ -104,7 +104,7 @@ def main(test_count):
 
 
                 robot.remove_all_waypoint()
-                joint_radian=(0.0,-0.24435,2.7524,-0.3,-1.4835,1.57)
+                joint_radian=(0.0,-0.24435,2.7524,-0.07,-1.4835,1.57)
                 # joint_radian=(0.2816961412718848, 1.0081021759519246, 2.0678660977628818, 2.59460646601477, 1.579522973054868, -1.7523105690023069)
 
                 # print("move joint to {0}".format(joint_radian))

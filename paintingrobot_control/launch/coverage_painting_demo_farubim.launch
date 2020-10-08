@@ -3,14 +3,14 @@
   
     <!-- aubo parameters -->
     <param name="aubo_ip" value='192.168.1.20'/>
-    <param name="aubo_initial_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,-1.57)'/> 
-    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.3,-1.4835,1.57)' /> 
+    <param name="aubo_initial_point" value='(0.0,-0.24435,2.7524,-0.07,-1.4835,-1.57)'/> 
+    <param name="aubo_default_point" value='(0.0,-0.24435,2.7524,-0.07,-1.4835,1.57)' /> 
 
 
     <param name="joint_maxacc_tuple" value='(2.5, 2.5, 2.5, 2.5, 2.5, 2.5)'/> 
     <param name="joint_maxvelc_tuple" value='(1.5, 1.5, 1.5, 1.5, 1.5, 1.5)'/> 
-    <param name="ee_maxacc" value='0.2'/> 
-    <param name="ee_maxvelc" value='0.2'/>
+    <param name="ee_maxacc" value='0.25'/> 
+    <param name="ee_maxvelc" value='0.25'/>
     <param name="blend_radius" value='0.05'/> 
 
 
@@ -31,6 +31,8 @@
     <param name="coverage_json_path" value="/data/ros/renov_robot_ws/src/paintingrobotdemo_v2/paintingrobotdemo_data/scan_guangtian/data/coverageplanningresults_dict.json" />
     <node pkg="paintingrobot_control" type="coverage_painting_demo_farubim.py" name="coverage_painting_operation" output="screen" >
     </node>
+    <node name="paintingrobotmotion_visualization" pkg="paintingrobot_visualization" type="paintingrobotmotion_visualization.py" />
+
 
   </group>
 </launch>
