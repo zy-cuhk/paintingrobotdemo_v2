@@ -13,6 +13,9 @@
 
 
 <!--load xianquzhe base-->
+
+
+
     <xacro:paintingrobot/>
   <link name="base_footprint"/>
     <joint name="planar_joint" type="fixed">

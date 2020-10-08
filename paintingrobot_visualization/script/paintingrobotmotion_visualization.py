@@ -20,7 +20,7 @@ class Renovationrobot_joints_pub():
         self.rodmechanism2ground_offsetlength2=-1.32
 
         self.aubo_joints_sub=rospy.Subscriber('/renov_up_level/aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)
-        self.paintingrobot_joints_pub=rospy.Publisher('/joint_states', JointState, queue_size=10)
+        self.paintingrobot_joints_pub=rospy.Publisher('/joint_states1', JointState, queue_size=10)
         self.tf_listener = tf.TransformListener()
 
 
@@ -63,14 +63,19 @@ class Renovationrobot_joints_pub():
 
         paintingrobot_joints.name.append('base_joint1')
         paintingrobot_joints.position.append(0.0)
-        # print(paintingrobot_joints.position)
-        # paintingrobot_joints.name[0]='base_joint1'
-        # paintingrobot_joints.position[0]=self.mobile_platform_joints_value[0]
         paintingrobot_joints.name.append('base_joint2')
         paintingrobot_joints.position.append(0.0)
         paintingrobot_joints.name.append('mobilebase_joint')
         paintingrobot_joints.position.append(0.0)
-        print("the received angle is:",self.mobile_platform_joints_value[2])
+
+
+        # paintingrobot_joints.name.append('base_joint1')
+        # paintingrobot_joints.position.append(self.mobile_platform_joints_value[0])
+        # paintingrobot_joints.name.append('base_joint2')
+        # paintingrobot_joints.position.append(self.mobile_platform_joints_value[1])
+        # paintingrobot_joints.name.append('mobilebase_joint')
+        # paintingrobot_joints.position.append(self.mobile_platform_joints_value[2])
+        # print("the received angle is:",self.mobile_platform_joints_value[2])
 
         paintingrobot_joints.name.append('rodclimbing_joint1')
         paintingrobot_joints.position.append(self.jackup_mechanism_joints_value[0])
