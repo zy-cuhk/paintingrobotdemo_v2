@@ -53,7 +53,7 @@ class RenovationRobot():
             list1.append(mobiledata)    
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
@@ -168,7 +168,7 @@ class RenovationRobot():
                 plane_num_count+=1
 
             print("plane_num_count is: ", plane_num_count)
-            if plane_num_count>=3:
+            if plane_num_count>=4:
                 rospy.loginfo("painting operation of the first part is over")
                 break
             # break

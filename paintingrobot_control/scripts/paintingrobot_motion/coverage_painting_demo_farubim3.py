@@ -40,7 +40,7 @@ class RenovationRobot():
 
     def renovationrobot_motion_and_visualization(self,planning_source_dict,rate):
 
-        plane_num_count=3
+        plane_num_count=4
         mobile_base_point_count=0
         climb_base_count_num=0
 
@@ -53,7 +53,7 @@ class RenovationRobot():
             list1.append(mobiledata)    
             time1=time.time()
             renovation_mobileplatform=mobile_platform()
-            # renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
+            renovation_mobileplatform.mobile_platform_motion(mobiledata,rate)
             # renovation_mobileplatform.mobile_platform_motion_simulation(mobiledata,rate)
             time2=time.time()
             delta_time1=time2-time1
