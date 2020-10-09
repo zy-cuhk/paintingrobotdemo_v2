@@ -155,6 +155,8 @@ class Renovation_operation():
                 rospy.logerr("the motion of electric switch is open")
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 1')
                 rospy.sleep(0.1)
+                os.system('rosparam set /renov_up_level/write_electric_switch_painting_open 1')
+                rospy.sleep(0.1)
                 electric_switch_painting_open_state=rospy.get_param("/renov_up_level/write_electric_switch_painting_open")
                 "painting gun triggering condition"
                 if electric_switch_painting_open_state==1:
@@ -179,6 +181,8 @@ class Renovation_operation():
 
             if last_motion_phase_over_flag==1:
                 rospy.logerr("the motion of electric switch is close")
+                os.system('rosparam set /renov_up_level/write_electric_switch_painting_close 1')
+                rospy.sleep(0.1)
                 os.system('rosparam set /renov_up_level/write_electric_switch_painting_close 1')
                 rospy.sleep(0.1)
                 electric_switch_painting_close_state=rospy.get_param("/renov_up_level/write_electric_switch_painting_close")

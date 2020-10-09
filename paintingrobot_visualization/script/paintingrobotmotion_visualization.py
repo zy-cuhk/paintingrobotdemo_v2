@@ -20,7 +20,7 @@ class Renovationrobot_joints_pub():
         self.rodmechanism2ground_offsetlength2=-1.32
 
         self.aubo_joints_sub=rospy.Subscriber('/renov_up_level/aubo_joints', JointState, self.obtain_aubo_joints, queue_size=10)
-        self.paintingrobot_joints_pub=rospy.Publisher('/joint_states1', JointState, queue_size=10)
+        self.paintingrobot_joints_pub=rospy.Publisher('/joint_states', JointState, queue_size=10)
         self.tf_listener = tf.TransformListener()
 
 
