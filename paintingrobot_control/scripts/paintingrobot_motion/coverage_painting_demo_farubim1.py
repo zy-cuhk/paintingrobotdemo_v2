@@ -118,6 +118,7 @@ class RenovationRobot():
                     delta_time3=time2-time1
                     self.time3_pub.publish(delta_time3)
 
+                    dsasdf
                     "exectuing painting operation of manipulator when climbing operation is over"
                     aubo_q_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubojoint_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+ str(climb_base_count_num)]
                     # print("the number of aubo_q is:",len(aubo_q_list))
