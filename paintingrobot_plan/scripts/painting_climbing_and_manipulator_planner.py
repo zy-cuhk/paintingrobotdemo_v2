@@ -362,7 +362,7 @@ if __name__ == "__main__":
             for j in range(len(renovation_cells_waypaths[0][i][0])):
     # for i in range(1):
         # for j in range(1):
-
+    
                 renovation_mobilebase_position_onecell=renovation_cells_mobilebase_positions[0][i][j][0:6]
                 renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j]
                 manipulatorbase_num_inonecell=0
@@ -393,6 +393,7 @@ if __name__ == "__main__":
                     # add the selected manipulator base position and covered painting waypaths into the planning list
                     # print("the selected manipulator base position is:",selected_manipulatorbase_position[0:6])
                     # print("----------------------------------------------------------------------------------")
+                    selected_manipulatorbase_position[2]=selected_manipulatorbase_position[2]+0.10
                     renovation_manipulatorbase_positions[i][j][manipulatorbase_num_inonecell]=selected_manipulatorbase_position[0:6]
 
                     for coverage_waypoints_num in range(len(scheduled_selectedjoints_dict)):
@@ -419,7 +420,6 @@ if __name__ == "__main__":
     # renovation_manipualtorwaypoint_cartesianlist[plane_num][cell_num][manipulatorbase_num][waypaths_num][0:6], format: dict
     # renovation_manipulatorwaypoint_jointslist[plane_num][cell_num][manipulatorbase_num][waypaths_num][0:6], format: dict 
 
-
     print("the number of planes is: ", len(renovation_manipulatorbase_positions))
     for i in range(len(renovation_cells_mobilebase_positions[0])):
         print("the plane number is: ",i)
@@ -442,14 +442,6 @@ if __name__ == "__main__":
                 mobileplatform_targetjoints=[p1[0]+offset_length1*cos(theta1+pi/2),p1[1]+offset_length1*sin(theta1+pi/2),p1[2],p1[3],p1[4],p1[5]]
                 print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
 
-            # if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
-            #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
-            #     offset_length2=-0.04
-            #     p3=mobileplatform_targetjoints
-            #     theta2=p3[5]
-            #     mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
-            #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
-
             if i==4 and j==0:
                 print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
                 offset_length3=0.04
@@ -465,45 +457,17 @@ if __name__ == "__main__":
         if len(renovation_cells_waypaths[0][i])==1:
             for j in range(len(renovation_cells_mobilebase_positions[0][i])):
 
-                # mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
-                # "some adjustments of mobile platform position"
-                # if i==2 and j==0:
-                #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
-                #     offset_length1=0.04
-                #     p1=mobileplatform_targetjoints
-                #     theta1=p1[5]
-                #     mobileplatform_targetjoints=[p1[0]+offset_length1*cos(theta1+pi/2),p1[1]+offset_length1*sin(theta1+pi/2),p1[2],p1[3],p1[4],p1[5]]
-                #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
-
-                # if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
-                #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
-                #     offset_length2=-0.04
-                #     p3=mobileplatform_targetjoints
-                #     theta2=p3[5]
-                #     mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
-                #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
-
-                # if i==4 and j==0:
-                #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
-                #     offset_length3=0.04
-                #     p5=mobileplatform_targetjoints
-                #     theta3=p5[5]
-                #     mobileplatform_targetjoints=[p5[0]+offset_length3*cos(theta3+pi/2),p5[1]+offset_length3*sin(theta3+pi/2),p5[2],p5[3],p5[4],p5[5]]
-                #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
-
                 # coverageplanningresults_dict["plane_num_"+str(i)]["moible_way_num_"+str(i)]["mobile_data_num_"+str(j)]=mobileplatform_targetjoints
-
                 renovation_waypaths_onecell=renovation_cells_waypaths[0][i][0][j].tolist()
                 coverageplanningresults_dict["plane_num_"+str(i)]["plane_renovationcells_num_"+str(i)]["renovationcells_num_"+str(j)]=renovation_waypaths_onecell
-
 
                 for k in range(len(renovation_manipulatorbase_positions[i][j])):
                     rodclimbing_robot_targetjoints=renovation_manipulatorbase_positions[i][j][k].tolist()
 
                     coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_manipulatorbase_num_"+str(j)]["manipulatorbase_num_"+str(k)]=rodclimbing_robot_targetjoints
                     "the manipulator base and climbing joint distance relationship is determined as: 0.6"
-                    climbingjoints=[rodclimbing_robot_targetjoints[2]-manipulatorbase_climbingjoint_defaultdistance, 0.0]
-                    # print("climbing joints are:",climbingjoints)
+                    climbingjoints=[rodclimbing_robot_targetjoints[2]-1.48, 0.0]
+                    print("climbing joints are:",climbingjoints)
                     
                     coverageplanningresults_dict["plane_num_"+str(i)]["current_mobile_way_climb_num_"+str(j)]["climb_num_"+str(k)]=climbingjoints
 
@@ -548,3 +512,38 @@ if __name__ == "__main__":
 
 
     
+            # if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
+            #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+            #     offset_length2=-0.04
+            #     p3=mobileplatform_targetjoints
+            #     theta2=p3[5]
+            #     mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
+            #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
+
+            # mobileplatform_targetjoints=renovation_cells_mobilebase_positions[0][i][j].tolist()
+            # "some adjustments of mobile platform position"
+            # if i==2 and j==0:
+            #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+            #     offset_length1=0.04
+            #     p1=mobileplatform_targetjoints
+            #     theta1=p1[5]
+            #     mobileplatform_targetjoints=[p1[0]+offset_length1*cos(theta1+pi/2),p1[1]+offset_length1*sin(theta1+pi/2),p1[2],p1[3],p1[4],p1[5]]
+            #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
+            # if i==2 and j==len(renovation_cells_mobilebase_positions[0][i])-1:
+            #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+            #     offset_length2=-0.04
+            #     p3=mobileplatform_targetjoints
+            #     theta2=p3[5]
+            #     mobileplatform_targetjoints=[p3[0]+offset_length2*cos(theta2+pi/2),p3[1]+offset_length2*sin(theta2+pi/2),p3[2],p3[3],p3[4],p3[5]]
+            #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
+            # if i==4 and j==0:
+            #     print("mobileplatform_targetjoints before is:",mobileplatform_targetjoints)
+            #     offset_length3=0.04
+            #     p5=mobileplatform_targetjoints
+            #     theta3=p5[5]
+            #     mobileplatform_targetjoints=[p5[0]+offset_length3*cos(theta3+pi/2),p5[1]+offset_length3*sin(theta3+pi/2),p5[2],p5[3],p5[4],p5[5]]
+            #     print("mobileplatform_targetjoints after is:",mobileplatform_targetjoints)
+
