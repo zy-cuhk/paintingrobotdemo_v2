@@ -233,11 +233,11 @@ toc;
 % renovation_waypaths_orientation{i}(1,1:3)
 
 renovation_cells_mobilebase_positions1{1}=renovation_cells_mobilebase_positions{1};
-renovation_cells_mobilebase_positions1{2}(1,1:6)=[-1.9246,1.7445,0,0,0,1.3538];
-renovation_cells_mobilebase_positions1{2}(2,1:6)=[-1.9246,1.7445,0,0,0,2.9219];
+% renovation_cells_mobilebase_positions1{2}(1,1:6)=[-1.9246,1.7445,0,0,0,1.3538];
+renovation_cells_mobilebase_positions1{2}(1,1:6)=[-1.9246,1.7445,0,0,0,2.9219];
 renovation_cells_mobilebase_positions1{3}=renovation_cells_mobilebase_positions{2};
-renovation_cells_mobilebase_positions1{4}(1,1:6)=[-2.8464,-0.8329,0,0,0,2.9219];
-renovation_cells_mobilebase_positions1{4}(2,1:6)=[-2.8464,-0.8329,0,0,0,-1.7768];
+% renovation_cells_mobilebase_positions1{4}(1,1:6)=[-2.8464,-0.8329,0,0,0,2.9219];
+renovation_cells_mobilebase_positions1{4}(1,1:6)=[-2.8464,-0.8329,0,0,0,-1.7768];
 renovation_cells_mobilebase_positions1{5}=renovation_cells_mobilebase_positions{3};
 
 renovation_cells_waypaths1{1}=renovation_cells_waypaths{1};

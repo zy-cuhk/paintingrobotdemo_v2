@@ -1,0 +1,82 @@
+<launch>
+
+  <!-- set /global_example parameter -->  
+  <group ns="renov_up_level">
+    <!--ros parameters of stand bar mechanism-->
+    <param name="open_hold_flag" value="0"/>
+    <param name="enable_control_stand_bar" value="0" />
+    <!-- second and third stand bar is applied for collision with top and dwon limit switch /> -->
+    <param name="enable_second_control_stand_bar" value="0" />
+    <param name="enable_third_stand_bar" value="0"/>
+    <param name="velocity_control_stand_bar" value="1000" />
+    <param name="hold_kp" value="30000"/>
+    <param name="hold_ki" value="0.1"/>
+    <param name="hold_kd" value="0.1"/>
+    <param name="pid_tolerance_error_standbar" value="0.005" />
+    <!--stand bar distance range: 0-0.09m (pos-up neg-down)-->
+    <param name="distance_control_stand_bar" value="0" />
+
+    <param name="stand_bar_flex_distance" value="0.437"/>
+    <param name="light_scan_to_top_distance" value="0.810"/>
+    <param name="hold_distance_tracking_over" value="0" />
+
+
+    <!--ros parameters of rotation mechanism-->
+    <param name="enable_control_rotation" value="0"/>
+    <param name="open_rotation_flag" value="0"/>
+    <param name="rotation_kp" value="15"/>
+    <param name="rotation_ki" value="0.1"/>
+    <param name="rotation_kd" value="0.1"/>
+    <param name="pid_tolerance_error_rotation" value="0.005"/>
+    <param name="rotation_homing_abs_encode_data" value="43774"/>
+    <param name="rotation_joint_line_equation_k" value="0.0064695"/>
+    <param name="rotation_joint_line_equation_b" value="-283.19583"/>
+    <!--set /rotation range -3.14-0.8 max pos-anticlockwise neg-clokwise-->
+    <param name="rad_control_rotation" value="0"/>
+    <param name="velocity_control_rotation" value="2000"/>
+    <param name="rotation_distance_tracking_over" value="0" />
+
+
+    <!--ros parameters of climbing mechanism-->
+    <param name="enable_climb_control" value="0"/>
+    <!-- second climb is applied for collision with middle limit switch /> -->
+    <param name="enable_second_climb_control" value="0"/>
+    <param name="open_climb_flag" value="0" />
+    <param name="climb_kp" value="10000"/>
+    <param name="climb_ki" value="0.1"/>
+    <param name="climb_kd" value="0.1"/>
+    <param name="pid_tolerance_error_climb" value="0.01"/>
+    <param name="climb_distance_tracking_over" value="0" />
+    <param name="velocity_climb_control" value="1000"/>
+    <!--climbing distance range: 0-2.5m (pos-up neg-down)-->
+    <param name="distance_climb_control" value="0"/>   
+
+    <!--other ros parameters -->
+    <!--set /climb_pkg_para/close all 3dof driver-->
+    <param name="close_all_3dof_climb_driver_flag" value="0"/>
+    <param name="open_hold_to_ceil_flag" value="0"/>
+    <param name="home_climb_flex_bar" value="0" />
+    <param name="aubo_painting_opreating_over" value="0" />
+
+
+    <!--new ros parameters added by zy-->
+    <param name="last_motion_phase_over_flag" value="0" />
+    <param name="current_motion_phase_start_flag" value="0" />
+    <param name="current_motion_phase_over_flag" value="0" />
+    
+
+    <!--several ranges-->
+    <param name="min_holding_distance" value="-0.19" />
+    <param name="max_holding_distance" value="0.03" />
+    <param name="min_climbing_distance" value="-0.10" />
+    <param name="max_climbing_distance" value="0.50" />
+    <param name="min_rotation_distance" value="-5.50" />
+    <param name="max_rotation_distance" value="2.36" />
+
+    <node pkg="paintingrobot_control" type="jackup_mechanism_rosdriver.py" name="jackup_mechanism_startup" output="screen" >
+    </node>
+    
+  </group>
+
+  
+</launch>

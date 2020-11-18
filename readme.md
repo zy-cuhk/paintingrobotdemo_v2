@@ -95,3 +95,20 @@ the rate of aubo_motion.py is changed in the main function, please be awared of 
 5: [0.8932124711426042, -1.8820063106367826, -1.593257814194489, 0.2887484964422944, 0.6775838556522924, -1.5707963267948966], 
 6: [0.8932124711426042, -0.30625985954143964, 1.1271764450453583, -1.7081563490029952, -0.6775838556522924, 1.5707963267948966],
 7: [0.8932124711426042, -1.3818592143056252, -1.1271764450453583, -2.8869098843295267, -0.6775838556522924, 1.5707963267948966]}))
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+
+# __conda_setup="$('/home/zy/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+# if [ $? -eq 0 ]; then
+#    eval "$__conda_setup"
+# else
+#    if [ -f "/home/zy/anaconda3/etc/profile.d/conda.sh" ]; then
+#        . "/home/zy/anaconda3/etc/profile.d/conda.sh"
+#    else
+#        export PATH="/home/zy/anaconda3/bin:$PATH"
+#    fi
+# fi
+# unset __conda_setup
+
+# <<< conda initialize <<<

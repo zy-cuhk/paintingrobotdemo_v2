@@ -75,16 +75,12 @@ class RenovationRobot():
             rospy.loginfo("execute the %sth mobile base point"%str(mobile_base_point_count+1))            
             rospy.loginfo("-----------------------------------------------------------------")
 
-            while not rospy.is_shutdown():
-                if plane_num_count!=1 and plane_num_count!=3:
+            "visualize online aubo robot arm paths and manipulator base coordinate frame"
+            if plane_num_count!=1 and plane_num_count!=3:
+                visualization_num=1
+                for climbing_num in range(len(planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)])):
                     
-                    rospy.loginfo("-----------------------------------------------------------------")
-                    rospy.loginfo("execute the %sth climb base point"%str(climb_base_count_num+1))
-                    rospy.loginfo("-----------------------------------------------------------------")
-
-                    "visualize online aubo robot arm paths"
-                    visualization_num=1
-                    aubo_p_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+str(climb_base_count_num)]
+                    aubo_p_list=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_aubocartesian_num_"+str(mobile_base_point_count)]["aubo_planning_voxel_num_"+str(climbing_num)]
                     manipulatorendeffector_targetpose_onecell=np.zeros((len(aubo_p_list),3))
                     for i in range(len(aubo_p_list)):
                         manipulatorendeffector_targetpose_onecell[i][0] = aubo_p_list["cartesianposition_num_"+str(i)][0]
@@ -93,8 +89,8 @@ class RenovationRobot():
                     visualization_num, manipulator_path=path_visualization(visualization_num,manipulatorendeffector_targetpose_onecell)
                     visualization_num=visualization_num+1
                     self.pub_state.publish(manipulator_path)
-                    "visualize manipulator base coordinate frame"
-                    rodclimbing_robot_targetjoints=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_manipulatorbase_num_"+str(mobile_base_point_count)]["manipulatorbase_num_"+str(climb_base_count_num)]
+
+                    rodclimbing_robot_targetjoints=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_manipulatorbase_num_"+str(mobile_base_point_count)]["manipulatorbase_num_"+str(climbing_num)]
                     visualization_num, point, x_axis, y_axis, z_axis= coordinate_frame_visualization(visualization_num, rodclimbing_robot_targetjoints)
                     visualization_num=visualization_num+1
                     self.pub_state.publish(point)
@@ -103,14 +99,22 @@ class RenovationRobot():
                     self.pub_state.publish(z_axis)
 
 
+            while not rospy.is_shutdown():
+                if plane_num_count!=1 and plane_num_count!=3:
+                    
+                    rospy.loginfo("-----------------------------------------------------------------")
+                    rospy.loginfo("execute the %sth climb base point"%str(climb_base_count_num+1))
+                    rospy.loginfo("-----------------------------------------------------------------")
+
                     "executing climbing motion of rod climbing mechanism when holding operation is over"
                     climb_data=planning_source_dict["plane_num_"+str(plane_num_count)]["current_mobile_way_climb_num_"+str(mobile_base_point_count)]["climb_num_"+ str(climb_base_count_num)]
                     climb_distance=climb_data[0]
-                    if climb_distance<-0.10:
-                        climb_distance+=0.08
                     climb_rotation_angle=climb_data[1]
+                    # if climb_distance<-0.10:
+                    #     climb_distance+=0.08
                     # print("climb distance is:",climb_distance)
                     # print("climb rotation angle is",climb_rotation_angle)
+                    
                     time1=time.time()
                     rodclimb_mechanism_motion(climb_rotation_angle,climb_distance,rate)
                     # rodclimb_mechanism_motion_simulation(climb_rotation_angle,climb_distance,rate)
@@ -127,7 +131,8 @@ class RenovationRobot():
                     aubo5=Renovation_operation()
                     rate=rospy.Rate(5)
                     aubo5.aubo_motion1(aubo_q_list,climb_base_count_num,rate)
-                    # aubo5.manipulator_motion_simulation(aubo_q_list,rate)
+                    # aubo5.aubo_motion(aubo_q_list,climb_base_count_num,rate):
+                    # aubo5.manipulator_motion_simulation(aubo_q_list,climb_base_count_num, rate)
                     time2=time.time()
                     delta_time4=time2-time1
                     self.time4_pub.publish(delta_time4)

@@ -3,5 +3,6 @@
         "/home/zy/catkin_ws/devel/lib/python2.7/dist-packages",
         "/opt/ros/melodic/lib/python2.7/dist-packages"
     ],
-    "ros.distro": "melodic"
+    "ros.distro": "melodic",
+    "python.pythonPath": "/usr/bin/python"
 }
